@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { StyleSheet } from "react-native";
+
+import { axios } from "../utils";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
@@ -7,6 +10,12 @@ import { RootTabScreenProps } from "../types";
 export default function TabOneScreen({
   navigation,
 }: RootTabScreenProps<"TabOne">) {
+  useEffect(() => {
+    const getPosts = async () => {
+      axios.get();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
