@@ -1,19 +1,28 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
-
-import { axios } from "../utils";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
+
+import { axios } from "../utils";
+
 import { RootTabScreenProps } from "../types";
 
-export default function TabOneScreen({
-  navigation,
-}: RootTabScreenProps<"TabOne">) {
+const TabOneScreen = ({ navigation }: RootTabScreenProps<"TabOne">) => {
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     const getPosts = async () => {
-      axios.get();
+      try {
+        const allPosts = await axios.get("/posts");
+
+        setPosts(allPosts.data.results);
+      } catch (err) {
+        console.log(err);
+      }
     };
+
+    getPosts();
   }, []);
 
   return (
@@ -27,7 +36,7 @@ export default function TabOneScreen({
       <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -45,3 +54,5 @@ const styles = StyleSheet.create({
     width: "80%",
   },
 });
+
+export default TabOneScreen;
