@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
+import Post from "../components/Post";
 
 import { axios } from "../utils";
 
@@ -27,6 +28,7 @@ const TabOneScreen = ({ navigation }: RootTabScreenProps<"TabOne">) => {
 
   return (
     <View style={styles.container}>
+      <Post />
       <Text style={styles.title}>Tab One</Text>
       <View
         style={styles.separator}
