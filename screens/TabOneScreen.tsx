@@ -1,60 +1,41 @@
 import { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { ScrollView } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
-import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
-import Post from "../components/Post";
+import { View } from "../components/Reusables/Themed";
+import Post from "../components/Reusables/Post";
+import Container from "../components/Reusables/Container";
 
 import { axios } from "../utils";
 
 import { RootTabScreenProps } from "../types";
+import { IPost } from "../types/";
 
 const TabOneScreen = ({ navigation }: RootTabScreenProps<"TabOne">) => {
-  const [posts, setPosts] = useState([]);
+  const isFocused = useIsFocused();
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
     const getPosts = async () => {
       try {
         const allPosts = await axios.get("/posts");
-
         setPosts(allPosts.data.results);
       } catch (err) {
         console.log(err);
       }
     };
-
-    getPosts();
-  }, []);
+    if (isFocused) getPosts();
+  }, [isFocused]);
 
   return (
-    <View style={styles.container}>
-      <Post />
-      <Text style={styles.title}>Tab One</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
+    <ScrollView>
+      <Container>
+        {posts.map((post, idx) => (
+          <Post key={`post-${idx}`} {...post} />
+        ))}
+      </Container>
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
 
 export default TabOneScreen;

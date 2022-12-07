@@ -1,11 +1,11 @@
-import { ImageSourcePropType, ImageStyle, StyleProp } from "react-native";
+import { StyleSheetProperties } from "react-native";
 
 interface IAccessibleImage {
   src: string;
   height?: number;
-  width?: number;
+  width?: number | string;
   alt?: string;
-  style?: StyleProp<ImageStyle>;
+  style?: StyleSheetProperties | {};
 }
 
 export default IAccessibleImage;
