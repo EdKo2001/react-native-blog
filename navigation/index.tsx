@@ -13,6 +13,8 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, Pressable } from "react-native";
+import AccessibleImage from "../components/Reusables/AccessibleImage";
+import { Text, View } from "../components/Reusables/Themed";
 
 import Colors from "../constants/Colors";
 import { useColorScheme } from "../hooks";
@@ -96,6 +98,16 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="newspaper-o" color={color} />
           ),
+          // headerTitle: () => (
+          //   <View>
+          //     <Text>Latest</Text>
+          //     <AccessibleImage
+          //       style={{ width: 100, height: 100, flex: 1 }}
+          //       resizeMode="contain"
+          //       src="https://blog.logrocket.com/wp-content/uploads/2022/09/logrocket-logo-frontend-analytics.png"
+          //     />
+          //   </View>
+          // ),
           // headerRight: () => (
           //   <Pressable
           //     onPress={() => navigation.navigate("Modal")}

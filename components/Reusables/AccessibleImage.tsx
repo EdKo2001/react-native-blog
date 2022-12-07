@@ -14,6 +14,7 @@ const AccessibleImage: FC<IAccessibleImage> = ({
   src,
   height,
   width,
+  resizeMode,
   alt,
   style,
 }) => {
@@ -50,6 +51,7 @@ const AccessibleImage: FC<IAccessibleImage> = ({
       accessibilityLabel={alt}
       style={style ?? {}}
       onError={onImageLoadError}
+      resizeMode={resizeMode ?? "cover"}
       accessible
     />
   );

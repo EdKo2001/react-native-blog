@@ -37,7 +37,7 @@ const Post: FC<IPost> = (props) => {
       <RenderHtml
         contentWidth={width}
         baseStyle={styles.desc}
-        source={{ html: props.excerpt! }}
+        source={{ html: props.excerpt?.replace(/(<([^>]+)>)/gi, "")! }}
       />
       <View style={styles.metaWrapper}>
         <View style={{ ...styles.meta, marginLeft: 0 }}>
@@ -55,10 +55,6 @@ const Post: FC<IPost> = (props) => {
         {/* <Text style={styles.metaWrapper.meta}>
           1 <FontAwesome name="heart" size={20} color="black" />
         </Text> */}
-      </View>
-      <View style={styles.tags}>
-        <Text style={{ ...styles.tags.tag, marginLeft: 0 }}>#React</Text>
-        <Text style={styles.tags.tag}>#React</Text>
       </View>
       <Button
         title="Read More"
@@ -83,16 +79,10 @@ const styles = StyleSheet.create({
   desc: {
     fontSize: 16,
   },
-  tags: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 15,
-    tag: { fontSize: 16, marginLeft: 10 },
-  },
   metaWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 10,
+    marginVertical: 20,
   },
   meta: {
     flexDirection: "row",
