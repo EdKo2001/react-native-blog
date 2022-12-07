@@ -33,42 +33,51 @@ const Post: FC<IPost> = (props) => {
           style={styles.image}
         />
       )}
-      <Text style={styles.title}>{props.title}</Text>
-      <RenderHtml
-        contentWidth={width}
-        baseStyle={styles.desc}
-        source={{ html: props.excerpt?.replace(/(<([^>]+)>)/gi, "")! }}
-      />
-      <View style={styles.metaWrapper}>
-        <View style={{ ...styles.meta, marginLeft: 0 }}>
-          <FontAwesome name="eye" size={20} color="black" />
-          <Text style={styles.meta.metaItem}>{props.viewsCount}</Text>
-        </View>
-        <View style={styles.meta}>
-          <FontAwesome name="commenting-o" size={20} color="black" />
-          <Text style={styles.meta.metaItem}>{props.commentsCount}</Text>
-        </View>
-        <View style={styles.meta}>
-          <FontAwesome name="heart-o" size={20} color="black" />
-          <Text style={styles.meta.metaItem}>{props.likesCount}</Text>
-        </View>
-        {/* <Text style={styles.metaWrapper.meta}>
+      <View style={styles.content}>
+        <Text style={styles.title}>{props.title}</Text>
+        <RenderHtml
+          contentWidth={width}
+          baseStyle={styles.desc}
+          source={{ html: props.excerpt?.replace(/(<([^>]+)>)/gi, "")! }}
+        />
+        <View style={styles.metaWrapper}>
+          <View style={{ ...styles.meta, marginLeft: 0 }}>
+            <FontAwesome name="eye" size={20} color="black" />
+            <Text style={styles.meta.metaItem}>{props.viewsCount}</Text>
+          </View>
+          <View style={styles.meta}>
+            <FontAwesome name="commenting-o" size={20} color="black" />
+            <Text style={styles.meta.metaItem}>{props.commentsCount}</Text>
+          </View>
+          <View style={styles.meta}>
+            <FontAwesome name="heart-o" size={20} color="black" />
+            <Text style={styles.meta.metaItem}>{props.likesCount}</Text>
+          </View>
+          {/* <Text style={styles.metaWrapper.meta}>
           1 <FontAwesome name="heart" size={20} color="black" />
         </Text> */}
+        </View>
+        <Button
+          title="Read More"
+          // @ts-ignore
+          onPress={() => navigation.navigate("TabTwo", props.slug)}
+          style={styles.button}
+        />
       </View>
-      <Button
-        title="Read More"
-        // @ts-ignore
-        onPress={() => navigation.navigate("TabTwo", props.slug)}
-        style={styles.button}
-      />
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   post: {
+    backgroundColor: "white",
+    borderRadius: 4,
     marginBottom: 30,
+    overflow: "hidden",
+  },
+  content: {
+    paddingHorizontal: 10,
+    paddingBottom: 10,
   },
   image: {},
   title: {

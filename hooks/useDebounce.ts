@@ -1,6 +1,6 @@
 import { useEffect, useCallback, DependencyList } from "react";
 
-import useFirstRender from "./useFirstRender";
+// import useFirstRender from "./useFirstRender";
 
 const useDebounce = (
   effect: () => void,
@@ -8,13 +8,13 @@ const useDebounce = (
   delay = 800
 ) => {
   const callback = useCallback(effect, dependencies);
-  const firstRender = useFirstRender();
+  // const firstRender = useFirstRender();
 
   useEffect(() => {
-    if (!firstRender) {
-      const timeout = setTimeout(callback, delay);
-      return () => clearTimeout(timeout);
-    }
+    // if (!firstRender) {
+    //   const timeout = setTimeout(callback, delay);
+    //   return () => clearTimeout(timeout);
+    // }
     return;
   }, [callback, delay]);
 };
