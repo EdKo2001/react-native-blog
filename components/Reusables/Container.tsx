@@ -15,6 +15,7 @@ const Container: FC<IContainer> = ({ children, style }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 10,
   },
 });

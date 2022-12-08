@@ -53,14 +53,17 @@ const TabOneScreen = ({ navigation }: RootTabScreenProps<"TabOne">) => {
 
   const fetchMoreData = () => {
     /* @ts-ignore */
-    if (postsData.next && !postsData.loading) {
+    if (postsData.next && !isLoading) {
       setPage((prevPage) => ++prevPage);
+      setLoading(true);
     }
   };
 
   const renderFooter = () => (
     <View>
-      {isLoading && <ActivityIndicator />}
+      {isLoading && (
+        <ActivityIndicator style={{ marginVertical: 10 }} size="large" />
+      )}
       {/* @ts-ignore */}
       {!postsData.next && <Text>No more articles at the moment</Text>}
     </View>
@@ -75,8 +78,11 @@ const TabOneScreen = ({ navigation }: RootTabScreenProps<"TabOne">) => {
 
   return (
     <Container>
-      {isLoading ? (
-        <ActivityIndicator size="large" />
+      {posts.length === 0 ? (
+        <ActivityIndicator
+          style={{ flex: 1, alignItems: "center" }}
+          size="large"
+        />
       ) : (
         <FlatList
           contentContainerStyle={{ flexGrow: 1 }}
