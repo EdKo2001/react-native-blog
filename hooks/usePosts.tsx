@@ -32,6 +32,8 @@ const usePosts = (options?: string, limit = 3) => {
       setLoading(false);
     };
     getPosts();
+
+    !isFocused && setPage(1);
   }, [isFocused]);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ const usePosts = (options?: string, limit = 3) => {
       }
       setLoading(false);
     };
-    getPosts();
+    page !== 1 && getPosts();
   }, [page]);
 
   const fetchMoreData = () => {
@@ -59,7 +61,7 @@ const usePosts = (options?: string, limit = 3) => {
   };
 
   const renderFooter = () => (
-    <View>
+    <View style={{ backgroundColor: "transparent" }}>
       {isLoading && (
         <ActivityIndicator style={{ marginVertical: 10 }} size="large" />
       )}
@@ -68,12 +70,7 @@ const usePosts = (options?: string, limit = 3) => {
     </View>
   );
 
-  const renderEmpty = () => (
-    <View>
-      <Text>No Data at the moment</Text>
-      <Button title="Refresh" />
-    </View>
-  );
+  const renderEmpty = () => <Text>No Data at the moment</Text>;
 
   return (
     <Container>

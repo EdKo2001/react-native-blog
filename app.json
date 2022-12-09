@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "react-native-blog",
+    "name": "Eduard's Blog",
     "slug": "react-native-blog",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,9 +15,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eduardko2001.reactnativeblog"

@@ -5,9 +5,7 @@ import { IContainer } from "../../types/";
 
 const Container: FC<IContainer> = ({ children, style }) => {
   return (
-    <SafeAreaView
-      style={{ ...styles.container, style } as StyleProp<ViewStyle>}
-    >
+    <SafeAreaView style={[styles.container, style] as StyleProp<ViewStyle>}>
       {children}
     </SafeAreaView>
   );

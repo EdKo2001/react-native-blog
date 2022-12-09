@@ -4,7 +4,7 @@ import { Text, StyleSheet, Pressable } from "react-native";
 const Button = (props: any) => {
   const { onPress, style, title = "Read more" } = props;
   return (
-    <Pressable style={{ ...styles.button, ...style }} onPress={onPress}>
+    <Pressable style={[styles.button, style]} onPress={onPress}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
   );

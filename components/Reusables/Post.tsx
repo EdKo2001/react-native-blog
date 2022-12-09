@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 import RenderHtml from "react-native-render-html";
 
-import { Text, View } from "./Themed";
+import { Text, useThemeColor, View } from "./Themed";
 
 import AccessibleImage from "./AccessibleImage";
 import Button from "./Button";
@@ -17,6 +17,18 @@ import { IPost } from "../../types/";
 const Post: FC<IPost> = (props) => {
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
+
+  const color = useThemeColor(
+    //@ts-ignore
+    { light: props.lightColor, dark: props.darkColor },
+    "text"
+  );
+
+  const tagsStyles = {
+    body: {
+      color,
+    },
+  };
 
   return (
     <Pressable
@@ -38,24 +50,25 @@ const Post: FC<IPost> = (props) => {
         <RenderHtml
           contentWidth={width}
           baseStyle={styles.desc}
+          tagsStyles={tagsStyles}
           source={{ html: props.excerpt?.replace(/(<([^>]+)>)/gi, "")! }}
         />
         <View style={styles.metaWrapper}>
-          <View style={{ ...styles.meta, marginLeft: 0 }}>
-            <FontAwesome name="eye" size={20} color="black" />
+          <View style={[styles.meta, { marginLeft: 0 }]}>
+            <FontAwesome name="eye" size={20} color={color} />
             <Text style={styles.meta.metaItem}>{props.viewsCount}</Text>
           </View>
           <View style={styles.meta}>
-            <FontAwesome name="commenting-o" size={20} color="black" />
+            <FontAwesome name="commenting-o" size={20} color={color} />
             <Text style={styles.meta.metaItem}>{props.commentsCount}</Text>
           </View>
           <View style={styles.meta}>
-            <FontAwesome name="heart-o" size={20} color="black" />
+            <FontAwesome name="heart-o" size={20} color={color} />
             <Text style={styles.meta.metaItem}>{props.likesCount}</Text>
-          </View>
-          {/* <Text style={styles.metaWrapper.meta}>
-          1 <FontAwesome name="heart" size={20} color="black" />
+            {/* <Text style={styles.metaWrapper.meta}>
+          1 <FontAwesome name="heart" size={20} color={color} />
         </Text> */}
+          </View>
         </View>
         <Button
           title="Read More"
