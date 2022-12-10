@@ -7,7 +7,7 @@ import {
 // type suggests that it can be null. This will not happen in practice, so this
 // makes it a bit easier to work with.
 export default function useColorScheme(
-  theme?: string
+  theme?: string | null
 ): NonNullable<ColorSchemeName> {
   return (theme ?? _useColorScheme()) as NonNullable<ColorSchemeName>;
 }

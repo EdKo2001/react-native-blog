@@ -1,5 +1,9 @@
 import { FC } from "react";
-import { Pressable, StyleSheet, useWindowDimensions } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { FontAwesome } from "@expo/vector-icons";
@@ -30,11 +34,19 @@ const Post: FC<IPost> = (props) => {
     },
   };
 
+  const navigateToFullPost = () => {
+    //@ts-ignore
+    navigation.navigate("FullPost", {
+      slug: props.slug,
+      title: props.title,
+    });
+  };
+
   return (
-    <Pressable
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={navigateToFullPost}
       style={styles.post}
-      // @ts-ignore
-      onPress={() => navigation.navigate("TabTwo", props.slug)}
     >
       {props.imageUrl && (
         <AccessibleImage
@@ -72,12 +84,11 @@ const Post: FC<IPost> = (props) => {
         </View>
         <Button
           title="Read More"
-          // @ts-ignore
-          onPress={() => navigation.navigate("TabTwo", props.slug)}
+          onPress={navigateToFullPost}
           style={styles.button}
         />
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
@@ -113,6 +124,7 @@ const styles = StyleSheet.create({
     metaItem: {
       fontSize: 16,
       marginLeft: 5,
+      background: "transparent",
     },
   },
   button: {

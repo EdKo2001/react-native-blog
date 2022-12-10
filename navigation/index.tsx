@@ -8,6 +8,7 @@ import { ColorSchemeName, Pressable } from "react-native";
 
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AccessibleImage from "../components/Reusables/AccessibleImage";
 import { Text, View } from "../components/Reusables/Themed";
@@ -18,12 +19,10 @@ import {
   TabOneScreen,
   TabTwoScreen,
   TabThreeScreen,
-  ModalScreen,
   NotFoundScreen,
   TabFourScreen,
+  FullPostScreen,
 } from "../screens";
-
-import LinkingConfiguration from "./LinkingConfiguration";
 
 import { useColorScheme } from "../hooks";
 
@@ -40,7 +39,6 @@ export default function Navigation({
 }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
       <RootNavigator />
@@ -63,13 +61,28 @@ const RootNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="FullPost"
+        component={FullPostScreen}
+        options={({ route }) => ({
+          //@ts-ignore
+          title: route.params?.title,
+          headerRight: () => (
+            <Pressable
+            // onPress={() => navigation.navigate("Modal")}
+            // style={({ pressed }) => ({
+            //   opacity: pressed ? 0.5 : 1,
+            // })}
+            >
+              <Text>Share</Text>
+            </Pressable>
+          ),
+        })}
+      />
+      <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
     </Stack.Navigator>
   );
 };
@@ -81,7 +94,16 @@ const RootNavigator = () => {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 const BottomTabNavigator = () => {
-  const colorScheme = useColorScheme("light");
+  // const theme = "dark"
+  const colorScheme = useColorScheme();
+
+  // const storeData = async (value?: string) => {
+  //   try {
+  //     await AsyncStorage.setItem("theme", "dark");
+  //   } catch (e) {
+  //     console.warn(e);
+  //   }
+  // };
 
   return (
     <BottomTab.Navigator
@@ -92,6 +114,16 @@ const BottomTabNavigator = () => {
           height: 50,
           paddingBottom: 5,
         },
+        headerRight: () => (
+          <Pressable
+          // onPress={() => storeData()}
+          // style={({ pressed }) => ({
+          //   opacity: pressed ? 0.5 : 1,
+          // })}
+          >
+            <Text>Switch Theme</Text>
+          </Pressable>
+        ),
       }}
     >
       <BottomTab.Screen
@@ -102,31 +134,6 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="newspaper-o" color={color} />
           ),
-          // headerTitle: () => (
-          //   <View>
-          //     <Text>Latest</Text>
-          //     <AccessibleImage
-          //       style={{ width: 100, height: 100, flex: 1 }}
-          //       resizeMode="contain"
-          //       src="https://blog.logrocket.com/wp-content/uploads/2022/09/logrocket-logo-frontend-analytics.png"
-          //     />
-          //   </View>
-          // ),
-          // headerRight: () => (
-          //   <Pressable
-          //     onPress={() => navigation.navigate("Modal")}
-          //     style={({ pressed }) => ({
-          //       opacity: pressed ? 0.5 : 1,
-          //     })}
-          //   >
-          //     <FontAwesome
-          //       name="info-circle"
-          //       size={25}
-          //       color={Colors[colorScheme].text}
-          //       style={{ marginRight: 15 }}
-          //     />
-          //   </Pressable>
-          // ),
         })}
       />
       <BottomTab.Screen
