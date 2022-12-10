@@ -20,6 +20,7 @@ import {
   TabThreeScreen,
   ModalScreen,
   NotFoundScreen,
+  TabFourScreen,
 } from "../screens";
 
 import LinkingConfiguration from "./LinkingConfiguration";
@@ -80,7 +81,7 @@ const RootNavigator = () => {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 const BottomTabNavigator = () => {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme("light");
 
   return (
     <BottomTab.Navigator
@@ -148,7 +149,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="TabFour"
-        component={TabTwoScreen}
+        component={TabFourScreen}
         options={{
           title: "Account",
           tabBarIcon: ({ color }) => (

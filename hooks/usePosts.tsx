@@ -66,11 +66,17 @@ const usePosts = (options?: string, limit = 3) => {
         <ActivityIndicator style={{ marginVertical: 10 }} size="large" />
       )}
       {/* @ts-ignore */}
-      {!postsData.next && <Text>No more articles at the moment</Text>}
+      {!postsData.next && (
+        <Text style={{ textAlign: "center" }}>
+          No more articles at the moment
+        </Text>
+      )}
     </View>
   );
 
-  const renderEmpty = () => <Text>No Data at the moment</Text>;
+  const renderEmpty = () => (
+    <Text style={{ textAlign: "center" }}>No Data at the moment</Text>
+  );
 
   return (
     <Container>
