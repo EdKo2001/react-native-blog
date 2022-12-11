@@ -78,7 +78,7 @@ const usePosts = (options?: string, limit = 3) => {
   );
 
   return (
-    <Container>
+    <Container style={{ backgroundColor: "lighgrey" }}>
       {posts.length === 0 ? (
         <ActivityIndicator
           style={{ flex: 1, alignItems: "center" }}

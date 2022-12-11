@@ -1,9 +1,8 @@
-import { ReactNode } from "react";
-import { StyleSheetProperties } from "react-native";
+import { CSSProperties, ReactNode } from "react";
 
 interface IContainer {
   children: ReactNode;
-  style?: StyleSheetProperties;
+  style?: CSSProperties;
 }
 
 export default IContainer;
