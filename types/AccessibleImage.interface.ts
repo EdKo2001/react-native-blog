@@ -7,6 +7,7 @@ interface IAccessibleImage {
   resizeMode?: "cover" | "contain" | "stretch" | "repeat" | "center";
   alt?: string;
   style?: StyleSheetProperties | {};
+  full?: boolean;
 }
 
 export default IAccessibleImage;

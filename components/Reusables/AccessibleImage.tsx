@@ -12,6 +12,7 @@ const AccessibleImage: FC<IAccessibleImage> = ({
   resizeMode,
   alt,
   style,
+  full,
 }) => {
   const [error, setError] = useState(false);
 
@@ -28,8 +29,8 @@ const AccessibleImage: FC<IAccessibleImage> = ({
     <Image
       source={{
         uri: src,
-        height: height ?? 100,
-        width: (width as number) ?? 100,
+        height: full ? 200 : height ?? 100,
+        width: full ? ("100%" as unknown as number) : (width as number) ?? 100,
       }}
       accessibilityLabel={alt}
       style={style ?? {}}

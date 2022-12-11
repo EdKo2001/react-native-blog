@@ -39,6 +39,9 @@ const Post: FC<IPost> = (props) => {
     navigation.navigate("FullPost", {
       slug: props.slug,
       title: props.title,
+      img: props.imageUrl ? BACKEND_URL + props.imageUrl : "",
+      //@ts-ignore
+      content: props.text,
     });
   };
 
@@ -52,9 +55,8 @@ const Post: FC<IPost> = (props) => {
         <AccessibleImage
           src={BACKEND_URL + props.imageUrl}
           alt={props.title}
-          width="100%"
-          height={200}
           style={styles.image}
+          full
         />
       )}
       <View style={styles.content}>
