@@ -6,8 +6,14 @@ import { AntDesign } from "@expo/vector-icons";
 import Button from "./Button";
 
 import { IShareComponent } from "../../types/";
+import { useThemeColor } from "./Themed";
 
-const ShareComponent: FC<IShareComponent> = ({ title, url }) => {
+const ShareComponent: FC<IShareComponent> = ({ title, url }, props) => {
+  const color = useThemeColor(
+    { light: props.lightColor, dark: props.darkColor },
+    "text"
+  );
+
   const onShare = async () => {
     try {
       await Share.share({
@@ -23,7 +29,7 @@ const ShareComponent: FC<IShareComponent> = ({ title, url }) => {
 
   return (
     <Button
-      title={<AntDesign name="sharealt" size={20} color="black" />}
+      title={<AntDesign name="sharealt" size={20} color={color} />}
       style={styles.button}
       onPress={onShare}
     />

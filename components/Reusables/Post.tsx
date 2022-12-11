@@ -39,7 +39,8 @@ const Post: FC<IPost> = (props) => {
     navigation.navigate("FullPost", {
       slug: props.slug,
       title: props.title,
-      img: props.imageUrl ? BACKEND_URL + props.imageUrl : ""
+      img: props.imageUrl ? BACKEND_URL + props.imageUrl : "",
+      tag: props.tags?.[0],
     });
   };
 
@@ -59,6 +60,7 @@ const Post: FC<IPost> = (props) => {
       )}
       <View style={styles.content}>
         <Text style={styles.title}>{props.title?.replace(/&nbsp;/g, " ")}</Text>
+        <Text style={styles.tag}>#{props.tags?.[0]}</Text>
         <RenderHtml
           contentWidth={width}
           baseStyle={styles.desc}
@@ -98,6 +100,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginBottom: 30,
     overflow: "hidden",
+  },
+  tag: {
+    fontSize: 16,
+    marginBottom: 10,
   },
   content: {
     paddingHorizontal: 10,

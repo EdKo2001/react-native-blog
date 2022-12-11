@@ -5,6 +5,7 @@ export { default as IShareComponent } from "./ShareComponent.interface";
 export { default as IButton } from "./Button.interface";
 export {
   RootStackParamList,
+  RootStackScreenProps,
   RootTabParamList,
   RootTabScreenProps,
 } from "./NavigationTypes";

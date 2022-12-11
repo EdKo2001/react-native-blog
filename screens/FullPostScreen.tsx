@@ -1,16 +1,17 @@
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+
 import RenderHTML from "react-native-render-html";
 
 import { Text, useThemeColor } from "../components/Reusables/Themed";
 import AccessibleImage from "../components/Reusables/AccessibleImage";
-import Button from "../components/Reusables/Button";
 import Container from "../components/Reusables/Container";
 
 import { width } from "../constants/Layout";
 
-import { RootStackScreenProps } from "../types";
-import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
 import { axios } from "../utils";
+
+import { RootStackScreenProps } from "../types/";
 
 const FullPostScreen = (
   { route, navigation }: RootStackScreenProps<"FullPost">,
@@ -18,7 +19,7 @@ const FullPostScreen = (
 ) => {
   const [content, setContent] = useState("");
   //@ts-ignore
-  const { slug, title, img } = route.params;
+  const { slug, title, img, tag } = route.params;
 
   const color = useThemeColor(
     //@ts-ignore
@@ -51,6 +52,7 @@ const FullPostScreen = (
       <Container>
         <AccessibleImage src={img} style={styles.featured} full />
         <Text style={styles.title}>{title?.replace(/&nbsp;/g, " ")}</Text>
+        <Text style={styles.tag}>#{tag}</Text>
         <RenderHTML
           contentWidth={width}
           tagsStyles={tagsStyles}
@@ -69,6 +71,10 @@ const styles = StyleSheet.create({
   featured: {
     borderRadius: 4,
     marginBottom: 15,
+  },
+  tag: {
+    marginTop: 10,
+    fontSize: 16,
   },
 });
 
