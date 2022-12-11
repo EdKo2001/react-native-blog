@@ -8,7 +8,11 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Entypo,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 import { Text } from "../components/Reusables/Themed";
 
@@ -111,11 +115,28 @@ const BottomTabNavigator = () => {
             onPress={() =>
               switchTheme(colorScheme === "light" ? "dark" : "light")
             }
-            // style={({ pressed }) => ({
-            //   opacity: pressed ? 0.5 : 1,
-            // })}
+            style={({ pressed }) => ({
+              flexDirection: "row",
+              alignItems: "center",
+              marginRight: 15,
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
-            <Text>Switch Theme</Text>
+            {colorScheme === "dark" ? (
+              <>
+                <Text style={{ marginRight: 10 }}>Light</Text>
+                <Entypo name="light-up" size={24} color={Colors.dark.text} />
+              </>
+            ) : (
+              <>
+                <Text style={{ marginRight: 10 }}>Dark</Text>
+                <FontAwesome
+                  name="moon-o"
+                  size={24}
+                  color={Colors.light.text}
+                />
+              </>
+            )}
           </Pressable>
         ),
       }}
