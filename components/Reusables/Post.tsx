@@ -60,7 +60,7 @@ const Post: FC<IPost> = (props) => {
         />
       )}
       <View style={styles.content}>
-        <Text style={styles.title}>{props.title}</Text>
+        <Text style={styles.title}>{props.title?.replace(/&nbsp;/g, " ")}</Text>
         <RenderHtml
           contentWidth={width}
           baseStyle={styles.desc}

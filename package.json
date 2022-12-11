@@ -8,8 +8,8 @@
     "android": "expo start --android",
     "apk": "eas build -p android --profile preview",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "np": "np"
   },
   "jest": {
     "preset": "jest-expo"
@@ -29,19 +29,17 @@
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "expo-system-ui": "~2.0.1",
-    "expo-web-browser": "~12.0.0",
+    "np": "^7.6.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
     "react-native-dotenv": "^3.4.2",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "4.4.1",
-    "react-native-screens": "~3.18.2",
-    "react-native-web": "~0.18.10"
+    "react-native-screens": "~3.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
-    "@expo/webpack-config": "^0.17.3",
     "@types/react": "~18.0.26",
     "@types/react-native": "~0.70.8",
     "jest": "^29.3.1",

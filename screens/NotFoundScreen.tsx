@@ -10,6 +10,7 @@ export default function NotFoundScreen({
     <View style={styles.container}>
       <Text style={styles.title}>This screen doesn't exist.</Text>
       <TouchableOpacity
+        //@ts-ignore
         onPress={() => navigation.replace("Root")}
         style={styles.link}
       >

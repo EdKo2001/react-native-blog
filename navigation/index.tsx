@@ -29,7 +29,7 @@ import {
 
 import { useGlobalContext } from "../context/GlobalContext";
 
-import { useColorScheme } from "../hooks";
+import useColorScheme from "../hooks/useColorScheme";
 
 import {
   RootStackParamList,
