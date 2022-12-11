@@ -1,12 +1,20 @@
-import React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { FC } from "react";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 
-const Button = (props: any) => {
-  const { onPress, style, title = "Read more" } = props;
+import { Text } from "./Themed";
+
+import { IButton } from "../../types/";
+
+const Button: FC<IButton> = ({ onPress, style, title = "Read more" }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.6}
-      style={[styles.button, style]}
+      style={[styles.button, style] as StyleProp<ViewStyle>}
       onPress={onPress}
     >
       <Text style={styles.text}>{title}</Text>

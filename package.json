@@ -36,7 +36,8 @@
     "react-native-dotenv": "^3.4.2",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "4.4.1",
-    "react-native-screens": "~3.18.2"
+    "react-native-screens": "~3.18.2",
+    "react-native-share": "^8.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",

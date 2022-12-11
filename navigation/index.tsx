@@ -27,6 +27,8 @@ import {
   FullPostScreen,
 } from "../screens";
 
+import ShareComponent from "../components/Reusables/Share";
+
 import { useGlobalContext } from "../context/GlobalContext";
 
 import useColorScheme from "../hooks/useColorScheme";
@@ -35,7 +37,9 @@ import {
   RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
-} from "../types";
+} from "../types/";
+
+import { FRONTEND_URL } from "@env";
 
 export default function Navigation() {
   const colorScheme = useColorScheme();
@@ -70,14 +74,12 @@ const RootNavigator = () => {
           //@ts-ignore
           title: route.params?.title,
           headerRight: () => (
-            <Pressable
-            // onPress={() => navigation.navigate("Modal")}
-            // style={({ pressed }) => ({
-            //   opacity: pressed ? 0.5 : 1,
-            // })}
-            >
-              <Text>Share</Text>
-            </Pressable>
+            <ShareComponent
+              //@ts-ignore
+              url={FRONTEND_URL + "/posts/" + route.params?.slug}
+              //@ts-ignore
+              title={route.params?.title}
+            />
           ),
         })}
       />
