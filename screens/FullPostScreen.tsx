@@ -1,6 +1,6 @@
 import RenderHTML from "react-native-render-html";
 
-import { Text } from "../components/Reusables/Themed";
+import { Text, useThemeColor } from "../components/Reusables/Themed";
 import AccessibleImage from "../components/Reusables/AccessibleImage";
 import Button from "../components/Reusables/Button";
 import Container from "../components/Reusables/Container";
@@ -8,21 +8,54 @@ import Container from "../components/Reusables/Container";
 import { width } from "../constants/Layout";
 
 import { RootStackScreenProps } from "../types";
-import { ScrollView, StyleSheet } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { axios } from "../utils";
 
-const FullPostScreen = ({
-  route,
-  navigation,
-}: RootStackScreenProps<"FullPost">) => {
+const FullPostScreen = (
+  { route, navigation }: RootStackScreenProps<"FullPost">,
+  props: any
+) => {
+  const [content, setContent] = useState("");
   //@ts-ignore
-  const { slug, title, img, content } = route.params;
+  const { slug, title, img } = route.params;
 
-  return (
+  const color = useThemeColor(
+    //@ts-ignore
+    { light: props.lightColor, dark: props.darkColor },
+    "text"
+  );
+
+  useEffect(() => {
+    const getPostContent = async () => {
+      setContent(
+        await axios
+          .get(`/posts/${slug}?fields=content`)
+          .then((res: any) => res.data.content)
+      );
+    };
+
+    getPostContent();
+  }, []);
+
+  const tagsStyles = {
+    body: {
+      color,
+    },
+  };
+
+  return !content ? (
+    <ActivityIndicator style={{ flex: 1, alignItems: "center" }} size="large" />
+  ) : (
     <ScrollView>
       <Container>
         <AccessibleImage src={img} style={styles.featured} full />
-        <Text style={styles.title}>{title}</Text>
-        <RenderHTML contentWidth={width} source={{ html: content }} />
+        <Text style={styles.title}>{title?.replace(/&nbsp;/g, " ")}</Text>
+        <RenderHTML
+          contentWidth={width}
+          tagsStyles={tagsStyles}
+          source={{ html: content }}
+        />
       </Container>
     </ScrollView>
   );

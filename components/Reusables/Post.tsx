@@ -39,9 +39,7 @@ const Post: FC<IPost> = (props) => {
     navigation.navigate("FullPost", {
       slug: props.slug,
       title: props.title,
-      img: props.imageUrl ? BACKEND_URL + props.imageUrl : "",
-      //@ts-ignore
-      content: props.text,
+      img: props.imageUrl ? BACKEND_URL + props.imageUrl : ""
     });
   };
 
