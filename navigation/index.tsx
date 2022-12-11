@@ -1,17 +1,16 @@
+import { Pressable } from "react-native";
+
 import {
   NavigationContainer,
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { ColorSchemeName, Pressable } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import AccessibleImage from "../components/Reusables/AccessibleImage";
-import { Text, View } from "../components/Reusables/Themed";
+import { Text } from "../components/Reusables/Themed";
 
 import Colors from "../constants/Colors";
 
@@ -24,6 +23,8 @@ import {
   FullPostScreen,
 } from "../screens";
 
+import { useGlobalContext } from "../context/GlobalContext";
+
 import { useColorScheme } from "../hooks";
 
 import {
@@ -32,11 +33,9 @@ import {
   RootTabScreenProps,
 } from "../types";
 
-export default function Navigation({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName;
-}) {
+export default function Navigation() {
+  const colorScheme = useColorScheme();
+
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
@@ -54,9 +53,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="BottomTabNavigator">
       <Stack.Screen
-        name="Root"
+        name="BottomTabNavigator"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
@@ -94,32 +93,27 @@ const RootNavigator = () => {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 const BottomTabNavigator = () => {
-  // const theme = "dark"
   const colorScheme = useColorScheme();
 
-  // const storeData = async (value?: string) => {
-  //   try {
-  //     await AsyncStorage.setItem("theme", "dark");
-  //   } catch (e) {
-  //     console.warn(e);
-  //   }
-  // };
+  const { switchTheme } = useGlobalContext();
 
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: Colors[colorScheme]?.tint,
         tabBarStyle: {
           height: 50,
           paddingBottom: 5,
         },
         headerRight: () => (
           <Pressable
-          // onPress={() => storeData()}
-          // style={({ pressed }) => ({
-          //   opacity: pressed ? 0.5 : 1,
-          // })}
+            onPress={() =>
+              switchTheme(colorScheme === "light" ? "dark" : "light")
+            }
+            // style={({ pressed }) => ({
+            //   opacity: pressed ? 0.5 : 1,
+            // })}
           >
             <Text>Switch Theme</Text>
           </Pressable>

@@ -5,7 +5,6 @@ import { useIsFocused } from "@react-navigation/native";
 import { Text, View } from "../components/Reusables/Themed";
 import Post from "../components/Reusables/Post";
 import Container from "../components/Reusables/Container";
-import Button from "../components/Reusables/Button";
 
 import { axios } from "../utils";
 

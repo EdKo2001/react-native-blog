@@ -1,13 +1,15 @@
 import React, { FC } from "react";
-import { SafeAreaView, StyleProp, StyleSheet, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, ViewStyle } from "react-native";
+
+import { View } from "./Themed";
 
 import { IContainer } from "../../types/";
 
 const Container: FC<IContainer> = ({ children, style }) => {
   return (
-    <SafeAreaView style={[styles.container, style] as StyleProp<ViewStyle>}>
+    <View style={[styles.container, style] as StyleProp<ViewStyle>}>
       {children}
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     metaItem: {
       fontSize: 16,
       marginLeft: 5,
-      background: "transparent",
+      backgroundColor: "transparent",
     },
   },
   button: {

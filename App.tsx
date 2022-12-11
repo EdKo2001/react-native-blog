@@ -1,35 +1,25 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { useCachedResources, useColorScheme } from "./hooks";
+import { useCachedResources } from "./hooks";
 
 import Navigation from "./navigation";
 
-const App = async () => {
+import { GlobalProvider } from "./context/GlobalContext";
+
+const App = () => {
   const isLoadingComplete = useCachedResources();
-
-  // const getStorage = async () => {
-  //   try {
-  //     const value = await ;
-  //     if (value !== null) {
-  //       // value previously stored
-  //     }
-  //   } catch (e) {
-  //     // error reading value
-  //   }
-  // };
-
-  const colorScheme = useColorScheme();
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+      <GlobalProvider>
+        <SafeAreaProvider>
+          <Navigation />
+          <StatusBar />
+        </SafeAreaProvider>
+      </GlobalProvider>
     );
   }
 };

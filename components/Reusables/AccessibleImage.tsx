@@ -1,10 +1,5 @@
 import { useState, FC } from "react";
-import {
-  // Dimensions,
-  Image,
-  ImageErrorEventData,
-  NativeSyntheticEvent,
-} from "react-native";
+import { Image, ImageErrorEventData, NativeSyntheticEvent } from "react-native";
 
 import { Text } from "./Themed";
 
@@ -18,24 +13,12 @@ const AccessibleImage: FC<IAccessibleImage> = ({
   alt,
   style,
 }) => {
-  // const [imageDim, setImageDim] = useState({
-  //   width,
-  //   height,
-  // });
   const [error, setError] = useState(false);
 
   const onImageLoadError = (e: NativeSyntheticEvent<ImageErrorEventData>) => {
     console.warn(e.nativeEvent.error);
     setError(true);
   };
-
-  // Image.getSize(src, (width, height) => {
-  //   // calculate image width and height
-  //   const screenWidth = Dimensions.get("window").width;
-  //   const scaleFactor = width / screenWidth;
-  //   const imageHeight = height / scaleFactor;
-  //   setImageDim({ width: screenWidth, height: imageHeight });
-  // });
 
   if (error) {
     return <Text>{alt}</Text>;
