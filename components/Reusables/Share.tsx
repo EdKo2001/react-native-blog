@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Share, StyleSheet } from "react-native";
+import { Platform, Share, StyleSheet } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -18,6 +18,7 @@ const ShareComponent: FC<IShareComponent> = ({ title, url }, props) => {
     try {
       await Share.share({
         title,
+        message: Platform.OS === "ios" ? title : url,
         url,
       });
     } catch (err) {
