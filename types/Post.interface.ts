@@ -1,5 +1,5 @@
 interface IPost {
-  id?: number;
+  _id?: number;
   title?: string;
   slug?: string;
   excerpt?: string;

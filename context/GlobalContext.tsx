@@ -8,6 +8,10 @@ const initialState = {
   switchTheme: (theme: "light" | "dark") => {
     theme;
   },
+  setFavorite: (id: number) => {},
+  isFavorite: (id: number) => {
+    return true || false;
+  },
 };
 
 const GlobalContext = createContext(initialState);
@@ -20,9 +24,10 @@ export const GlobalProvider = ({ children }: any) => {
   const [theme, setTheme] = useState(
     useColorScheme() as NonNullable<ColorSchemeName>
   );
+  const [favorites, setFavorites] = useState<number[]>([]);
 
   useEffect(() => {
-    const setTheme = async () => {
+    const setSavedTheme = async () => {
       const theme = (await AsyncStorage.getItem(
         "theme"
       )) as NonNullable<ColorSchemeName>;
@@ -30,7 +35,14 @@ export const GlobalProvider = ({ children }: any) => {
       switchTheme(theme ?? useColorScheme());
     };
 
-    setTheme();
+    const setSavedFavorites = async () => {
+      setFavorites(
+        JSON.parse((await AsyncStorage.getItem("favorites")) ?? ([] as any))
+      );
+    };
+
+    setSavedTheme();
+    setSavedFavorites();
   });
 
   const switchTheme = async (theme: NonNullable<ColorSchemeName>) => {
@@ -38,9 +50,37 @@ export const GlobalProvider = ({ children }: any) => {
     await AsyncStorage.setItem("theme", theme);
   };
 
+  const setFavorite = async (id: number) => {
+    if (favorites.includes(id)) {
+      setFavorites(
+        (prevFav) => (
+          AsyncStorage.setItem(
+            "favorites",
+            JSON.stringify(prevFav.filter((fav) => fav !== id))
+          ),
+          prevFav.filter((fav) => fav !== id)
+        )
+      );
+    } else {
+      setFavorites(
+        (prevFav) => (
+          AsyncStorage.setItem("favorites", JSON.stringify([...prevFav, id])),
+          [...prevFav, id]
+        )
+      );
+    }
+  };
+
+  const isFavorite = (id: number) => {
+    return favorites.includes(id);
+  };
+
   const value = {
     theme,
+    favorites,
     switchTheme,
+    setFavorite,
+    isFavorite,
   };
 
   return (

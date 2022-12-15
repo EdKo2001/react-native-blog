@@ -27,9 +27,6 @@
       },
       "package": "com.eduardko2001.reactnativeblog"
     },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
-    },
     "extra": {
       "eas": {
         "projectId": "fa578539-9d71-4df1-b7bf-1fd5cb255319"

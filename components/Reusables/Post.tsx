@@ -1,5 +1,6 @@
 import { FC } from "react";
 import {
+  Pressable,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
@@ -14,6 +15,8 @@ import { Text, useThemeColor, View } from "./Themed";
 import AccessibleImage from "./AccessibleImage";
 import Button from "./Button";
 
+import { useGlobalContext } from "../../context/GlobalContext";
+
 import { BACKEND_URL } from "@env";
 
 import { IPost } from "../../types/";
@@ -21,6 +24,7 @@ import { IPost } from "../../types/";
 const Post: FC<IPost> = (props) => {
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
+  const { setFavorite, isFavorite } = useGlobalContext();
 
   const color = useThemeColor(
     //@ts-ignore
@@ -76,13 +80,17 @@ const Post: FC<IPost> = (props) => {
             <FontAwesome name="commenting-o" size={20} color={color} />
             <Text style={styles.meta.metaItem}>{props.commentsCount}</Text>
           </View>
-          <View style={styles.meta}>
-            <FontAwesome name="heart-o" size={20} color={color} />
+          <Pressable
+            onPress={() => setFavorite(props._id!)}
+            style={styles.meta}
+          >
+            <FontAwesome
+              name={isFavorite(props._id!) ? "heart" : "heart-o"}
+              size={20}
+              color={color}
+            />
             <Text style={styles.meta.metaItem}>{props.likesCount}</Text>
-            {/* <Text style={styles.metaWrapper.meta}>
-          1 <FontAwesome name="heart" size={20} color={color} />
-        </Text> */}
-          </View>
+          </Pressable>
         </View>
         <Button
           title="Read More"
