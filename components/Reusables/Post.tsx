@@ -87,7 +87,7 @@ const Post: FC<IPost> = (props) => {
             <FontAwesome
               name={isFavorite(props._id!) ? "heart" : "heart-o"}
               size={20}
-              color={color}
+              color={isFavorite(props._id!) ? "red" : color}
             />
             <Text style={styles.meta.metaItem}>{props.likesCount}</Text>
           </Pressable>
@@ -104,7 +104,6 @@ const Post: FC<IPost> = (props) => {
 
 const styles = StyleSheet.create({
   post: {
-    backgroundColor: "white",
     borderRadius: 4,
     marginBottom: 30,
     overflow: "hidden",

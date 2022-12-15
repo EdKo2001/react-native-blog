@@ -1,9 +1,9 @@
 import { CSSProperties, ReactElement } from "react";
 
 interface IButton {
-  onPress: () => void;
-  style: CSSProperties;
   title: string | ReactElement<any, any>;
+  onPress: () => void;
+  style?: CSSProperties;
 }
 
 export default IButton;

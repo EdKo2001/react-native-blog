@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
   theme: "light" as NonNullable<ColorSchemeName>,
+  favorites: [] as number[],
   switchTheme: (theme: "light" | "dark") => {
     theme;
   },
@@ -43,7 +44,7 @@ export const GlobalProvider = ({ children }: any) => {
 
     setSavedTheme();
     setSavedFavorites();
-  });
+  }, []);
 
   const switchTheme = async (theme: NonNullable<ColorSchemeName>) => {
     setTheme(theme);

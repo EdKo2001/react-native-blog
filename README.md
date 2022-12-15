@@ -10,9 +10,6 @@ Optimization:
 App weight
 https://william-liu.medium.com/preloading-react-native-bridge-2d9c109440a4
 
-FEAT: Save posts locally
-FEAT: Screen for saved posts/favorites in the future for authed users
-FEAT: Search screen with searched posts
 FEAT: Sign in/up/out and their fav posts
 
 FIX: hover bg some sections
