@@ -39,30 +39,39 @@ export const GlobalProvider = ({ children }: any) => {
 
   useEffect(() => {
     const setSavedTheme = async () => {
-      const theme = (await AsyncStorage.getItem(
-        "theme"
-      )) as NonNullable<ColorSchemeName>;
+      try {
+        const theme = (await AsyncStorage.getItem(
+          "theme"
+        )) as NonNullable<ColorSchemeName>;
 
-      switchTheme(theme ?? useColorScheme());
+        switchTheme(theme ?? useColorScheme());
+      } catch (err) {
+        console.warn("setSavedTheme", err);
+      }
     };
 
     const setSavedFavorites = async () => {
-      setFavorites(
-        JSON.parse((await AsyncStorage.getItem("favorites")) ?? ([] as any))
-      );
+      try {
+        setFavorites(
+          JSON.parse((await AsyncStorage.getItem("favorites")) ?? ([] as any))
+        );
+      } catch (err) {
+        console.warn("setSavedFavorites", err);
+      }
     };
 
     const setSavedAuthed = async () => {
-      setAuthed(
-        JSON.parse(
-          (await AsyncStorage.getItem("isAuthed")) ?? (false as never as string)
-        )
-      );
-      setToken(
-        JSON.parse(
-          (await AsyncStorage.getItem("token")) ?? (null as never as string)
-        )
-      );
+      try {
+        setAuthed(
+          JSON.parse(
+            (await AsyncStorage.getItem("isAuthed")) ??
+              (false as never as string)
+          )
+        );
+        setToken((await AsyncStorage.getItem("token")) ?? "");
+      } catch (err) {
+        console.warn("setSavedAuthed", err);
+      }
     };
 
     setSavedTheme();
@@ -103,7 +112,7 @@ export const GlobalProvider = ({ children }: any) => {
   const authSignIn = async (email: string, password: string) => {
     try {
       const { data } = await axios.post("/auth/login", { email, password });
-      setToken(data.token);
+      console.log(data.token);
       setAuthed(true);
       AsyncStorage.setItem("isAuthed", JSON.stringify(true));
       AsyncStorage.setItem("token", data.token);
