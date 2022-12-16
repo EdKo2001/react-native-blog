@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import { StyleSheet } from "react-native";
-import { Modal as ModalComponent, Pressable } from "react-native";
+import { StyleSheet, Modal as ModalComponent, Pressable } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -18,7 +17,7 @@ const Modal: FC<IModal> = ({ isOpen, setOpen, children, title }) => {
         setOpen(!isOpen);
       }}
     >
-      <View style={styles.centeredView}>
+      <Pressable style={styles.centeredView} onPress={() => setOpen(false)}>
         <View style={styles.modalView}>
           <Pressable
             style={{ marginLeft: "auto", marginTop: -15, marginRight: -15 }}
@@ -29,7 +28,7 @@ const Modal: FC<IModal> = ({ isOpen, setOpen, children, title }) => {
           {title && <Text style={styles.title}>{title}</Text>}
           {children}
         </View>
-      </View>
+      </Pressable>
     </ModalComponent>
   );
 };
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(255 ,255, 255, 0.55)",
   },
   modalView: {
     backgroundColor: "white",
