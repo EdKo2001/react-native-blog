@@ -37,10 +37,12 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
         )}
       </Container>
       {favorites.length > 0 && posts}
-      <SignIn
-        isOpen={isSignInVisible}
-        setOpen={(state: boolean) => setSignInVisible(state)}
-      />
+      {!isAuthed && (
+        <SignIn
+          isOpen={isSignInVisible}
+          setOpen={(state: boolean) => setSignInVisible(state)}
+        />
+      )}
     </>
   );
 };

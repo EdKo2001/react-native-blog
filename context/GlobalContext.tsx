@@ -17,7 +17,9 @@ const initialState = {
   isFavorite: (id: number) => {
     return true || false;
   },
-  authSignIn: (email: string, password: string) => {},
+  authSignIn: (email: string, password: string) => {
+    return Promise.resolve() || Promise.reject();
+  },
   authSignout: () => {},
 };
 
@@ -50,15 +52,22 @@ export const GlobalProvider = ({ children }: any) => {
       );
     };
 
-    const setAuthed = async () => {
-      //@ts-ignore
-      setAuthed(JSON.parse((await AsyncStorage.getItem("isAuthed")) ?? false));
-      setToken(JSON.parse((await AsyncStorage.getItem("token")) ?? ""));
+    const setSavedAuthed = async () => {
+      setAuthed(
+        JSON.parse(
+          (await AsyncStorage.getItem("isAuthed")) ?? (false as never as string)
+        )
+      );
+      setToken(
+        JSON.parse(
+          (await AsyncStorage.getItem("token")) ?? (null as never as string)
+        )
+      );
     };
 
     setSavedTheme();
     setSavedFavorites();
-    setAuthed();
+    setSavedAuthed();
   }, []);
 
   const switchTheme = async (theme: NonNullable<ColorSchemeName>) => {
@@ -98,8 +107,14 @@ export const GlobalProvider = ({ children }: any) => {
       setAuthed(true);
       AsyncStorage.setItem("isAuthed", JSON.stringify(true));
       AsyncStorage.setItem("token", data.token);
+      return Promise.resolve();
     } catch (err) {
-      console.warn(err);
+      if (err instanceof Error) {
+        console.warn(err);
+        //@ts-ignore
+        alert(err.response.data.message);
+      }
+      return Promise.reject(err);
     }
   };
 
