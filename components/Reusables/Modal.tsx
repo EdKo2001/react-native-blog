@@ -1,12 +1,14 @@
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
-import { Modal as ModalComponent, TextInput, Pressable } from "react-native";
+import { Modal as ModalComponent, Pressable } from "react-native";
 
-import { View } from "./Themed";
+import { AntDesign } from "@expo/vector-icons";
+
+import { Text, View } from "./Themed";
 
 import IModal from "../../types/Modal.interface";
 
-const Modal: FC<IModal> = ({ isOpen, setOpen, children }) => {
+const Modal: FC<IModal> = ({ isOpen, setOpen, children, title }) => {
   return (
     <ModalComponent
       animationType="slide"
@@ -17,7 +19,16 @@ const Modal: FC<IModal> = ({ isOpen, setOpen, children }) => {
       }}
     >
       <View style={styles.centeredView}>
-        <View style={styles.modalView}>{children}</View>
+        <View style={styles.modalView}>
+          <Pressable
+            style={{ marginLeft: "auto", marginTop: -15, marginRight: -15 }}
+            onPress={() => setOpen(false)}
+          >
+            <AntDesign name="close" size={24} color="black" />
+          </Pressable>
+          {title && <Text style={styles.title}>{title}</Text>}
+          {children}
+        </View>
       </View>
     </ModalComponent>
   );
@@ -46,20 +57,10 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
+  title: {
+    color: "black",
+    fontSize: 20,
     fontWeight: "bold",
-    textAlign: "center",
+    marginBottom: 20,
   },
 });

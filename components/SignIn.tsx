@@ -39,7 +39,11 @@ const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
   const onSubmit = (data: any) => isEmailValid && console.log(data);
 
   return (
-    <Modal isOpen={isOpen} setOpen={(state: boolean) => setOpen(state)}>
+    <Modal
+      isOpen={isOpen}
+      setOpen={(state: boolean) => setOpen(state)}
+      title="Sign In"
+    >
       <Controller
         control={control}
         rules={{
