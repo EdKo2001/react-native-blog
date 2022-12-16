@@ -13,18 +13,23 @@ import usePosts from "../hooks/usePosts";
 import { RootTabScreenProps } from "../types";
 
 const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
-  const [isSignInVisible, setSignInVisible] = useState(true);
-  const { favorites } = useGlobalContext();
-  const posts = favorites.length > 0 && usePosts(`id=${favorites}`);
+  const [isSignInVisible, setSignInVisible] = useState(false);
+  const { favorites, isAuthed, authSignout } = useGlobalContext();
 
+  const posts = favorites.length > 0 && usePosts(`id=${favorites}`);
   return (
     <>
       <Container style={{ flex: 0 }}>
         <Text style={{ ...styles.title, textAlign: "center" }}>Get Authed</Text>
         <View style={styles.ctaButtons} foreground>
-          <Button title="Sign in" onPress={() => setSignInVisible(true)} />
-          <Button title="Sign Up" onPress={() => {}} />
-          {/* <Button title="Sign Out" onPress={() => {}} /> */}
+          {!isAuthed ? (
+            <>
+              <Button title="Sign in" onPress={() => setSignInVisible(true)} />
+              <Button title="Sign Up" onPress={() => {}} />
+            </>
+          ) : (
+            <Button title="Sign Out" onPress={authSignout} />
+          )}
         </View>
         <Text style={[styles.title, { marginBottom: 0 }]}>Favorites Posts</Text>
         {favorites.length === 0 && (

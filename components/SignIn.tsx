@@ -6,8 +6,7 @@ import { useForm, Controller } from "react-hook-form";
 import Modal from "./Reusables/Modal";
 import { Text } from "./Reusables/Themed";
 import Button from "./Reusables/Button";
-
-import { axios } from "../utils";
+import { useGlobalContext } from "../context/GlobalContext";
 
 interface ISignIn {
   isOpen: boolean;
@@ -15,6 +14,8 @@ interface ISignIn {
 }
 const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
   const [isEmailValid, setEmailValid] = useState(true);
+
+  const { authSignIn } = useGlobalContext();
 
   const validateEmail = (email: string) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -36,7 +37,8 @@ const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
     },
   });
 
-  const onSubmit = (data: any) => isEmailValid && console.log(data);
+  const onSubmit = (data: { email: string; password: string }) =>
+    isEmailValid && authSignIn(data.email, data.password);
 
   return (
     <Modal
@@ -68,7 +70,7 @@ const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
           This is required.
         </Text>
       )}
-      {!isEmailValid && (
+      {!errors.email && !isEmailValid && (
         <Text style={[styles.label, styles.errorMessage]}>
           Email is invalid.
         </Text>
