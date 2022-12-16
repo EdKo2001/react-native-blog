@@ -30,14 +30,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
     backgroundColor: "transparent",
   },
   modalView: {
-    margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 4,
+    padding: 30,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
