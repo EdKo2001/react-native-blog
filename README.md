@@ -11,5 +11,5 @@ App weight
 https://william-liu.medium.com/preloading-react-native-bridge-2d9c109440a4
 
 FEAT: Sign in/up/out and their fav posts
-
+FEAT: Export components into index.ts
 FIX: hover bg some sections

@@ -20,6 +20,9 @@ const initialState = {
   authSignIn: (email: string, password: string) => {
     return Promise.resolve() || Promise.reject();
   },
+  authSignUp: (fullName: string, email: string, password: string) => {
+    return Promise.resolve() || Promise.reject();
+  },
   authSignout: () => {},
 };
 
@@ -111,11 +114,42 @@ export const GlobalProvider = ({ children }: any) => {
 
   const authSignIn = async (email: string, password: string) => {
     try {
-      const { data } = await axios.post("/auth/login", { email, password });
-      console.log(data.token);
+      const { data } = await axios.post("/auth/login", {
+        email,
+        password,
+      });
       setAuthed(true);
+      setToken(data.token);
       AsyncStorage.setItem("isAuthed", JSON.stringify(true));
       AsyncStorage.setItem("token", data.token);
+
+      return Promise.resolve();
+    } catch (err) {
+      if (err instanceof Error) {
+        console.warn(err);
+        //@ts-ignore
+        alert(err.response.data.message);
+      }
+      return Promise.reject(err);
+    }
+  };
+
+  const authSignUp = async (
+    fullName: string,
+    email: string,
+    password: string
+  ) => {
+    try {
+      const { data } = await axios.post("/auth/register", {
+        fullName,
+        email,
+        password,
+      });
+      setAuthed(true);
+      setToken(data.token);
+      AsyncStorage.setItem("isAuthed", JSON.stringify(true));
+      AsyncStorage.setItem("token", data.token);
+
       return Promise.resolve();
     } catch (err) {
       if (err instanceof Error) {
@@ -147,6 +181,7 @@ export const GlobalProvider = ({ children }: any) => {
     setFavorite,
     isFavorite,
     authSignIn,
+    authSignUp,
     authSignout,
   };
 

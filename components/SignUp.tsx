@@ -9,12 +9,12 @@ import Button from "./Reusables/Button";
 
 import { useGlobalContext } from "../context/GlobalContext";
 
-import { ISignIn } from "../types";
+import { ISignUp } from "../types";
 
-const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
+const SignUp: FC<ISignUp> = ({ isOpen, setOpen }) => {
   const [isEmailValid, setEmailValid] = useState(true);
 
-  const { authSignIn } = useGlobalContext();
+  const { authSignUp } = useGlobalContext();
 
   const validateEmail = (email: string) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -29,25 +29,58 @@ const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     defaultValues: {
+      fullName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = (data: { email: string; password: string }) =>
+  const onSubmit = (data: {
+    fullName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) =>
     isEmailValid &&
-    authSignIn(data.email, data.password).then(
-      () => (setOpen(false), alert("Successfully logged in"))
+    getValues("password") === getValues("confirmPassword") &&
+    authSignUp(data.fullName, data.email, data.password).then(
+      () => (setOpen(false), alert("Successfully registered"))
     );
 
   return (
     <Modal
       isOpen={isOpen}
       setOpen={(state: boolean) => setOpen(state)}
-      title="Sign In"
+      title="Sign Up"
     >
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <>
+            <Text style={styles.label}>Full name</Text>
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          </>
+        )}
+        name="fullName"
+      />
+      {errors.fullName && (
+        <Text style={[styles.label, styles.errorMessage]}>
+          This is required.
+        </Text>
+      )}
+
       <Controller
         control={control}
         rules={{
@@ -104,6 +137,39 @@ const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
         </Text>
       )}
 
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <>
+            <Text style={styles.label}>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              secureTextEntry
+            />
+          </>
+        )}
+        name="confirmPassword"
+      />
+      {errors.confirmPassword && (
+        <Text style={[styles.label, styles.errorMessage]}>
+          This is required.
+        </Text>
+      )}
+      {!errors.confirmPassword &&
+        getValues("password") !== "" &&
+        getValues("confirmPassword") !== "" &&
+        getValues("password") === getValues("confirmPassword") && (
+          <Text style={[styles.label, styles.errorMessage]}>
+            Confirm password doesn't match password
+          </Text>
+        )}
+
       <Button
         title="Submit"
         style={styles.submit}
@@ -130,10 +196,11 @@ const styles = StyleSheet.create({
     marginTop: -10,
     marginBottom: 15,
     color: "red",
+    maxWidth: "70%",
   },
   submit: {
     marginTop: 15,
   },
 });
 
-export default SignIn;
+export default SignUp;

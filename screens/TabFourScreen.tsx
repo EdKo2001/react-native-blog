@@ -5,6 +5,7 @@ import Button from "../components/Reusables/Button";
 import Container from "../components/Reusables/Container";
 import { View, Text } from "../components/Reusables/Themed";
 import SignIn from "../components/SignIn";
+import SignUp from "../components/SignUp";
 
 import { useGlobalContext } from "../context/GlobalContext";
 
@@ -14,6 +15,7 @@ import { RootTabScreenProps } from "../types";
 
 const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
   const [isSignInVisible, setSignInVisible] = useState(false);
+  const [isSignUpVisible, setSignUpVisible] = useState(false);
   const { favorites, isAuthed, authSignout } = useGlobalContext();
 
   const posts = favorites.length > 0 && usePosts(`id=${favorites}`);
@@ -25,7 +27,7 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
           {!isAuthed ? (
             <>
               <Button title="Sign in" onPress={() => setSignInVisible(true)} />
-              <Button title="Sign Up" onPress={() => {}} />
+              <Button title="Sign Up" onPress={() => setSignUpVisible(true)} />
             </>
           ) : (
             <Button title="Sign Out" onPress={authSignout} />
@@ -38,10 +40,16 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
       </Container>
       {favorites.length > 0 && posts}
       {!isAuthed && (
-        <SignIn
-          isOpen={isSignInVisible}
-          setOpen={(state: boolean) => setSignInVisible(state)}
-        />
+        <>
+          <SignIn
+            isOpen={isSignInVisible}
+            setOpen={(state: boolean) => setSignInVisible(state)}
+          />
+          <SignUp
+            isOpen={isSignUpVisible}
+            setOpen={(state: boolean) => setSignUpVisible(state)}
+          />
+        </>
       )}
     </>
   );
