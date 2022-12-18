@@ -26,6 +26,7 @@ const FullPostScreen = (
     likes?: { _id: string; user: string; createdAt: string }[];
     content?: string;
   }>({});
+  const [postCallback, setPostCallback] = useState(false);
 
   const color = useThemeColor(
     //@ts-ignore
@@ -37,16 +38,12 @@ const FullPostScreen = (
     const getPostContent = async () => {
       await axios
         .get(`/posts/${slug}?fields=content,viewsCount,likesCount,likes`)
-        .then(
-          (res: any) => (
-            setPostData(res.data), console.log("res.data.likes", res.data.likes)
-          )
-        )
+        .then((res: any) => setPostData(res.data))
         .catch((err: Error) => console.warn(err));
     };
 
     getPostContent();
-  }, []);
+  }, [postCallback]);
 
   const tagsStyles = {
     body: {
@@ -71,6 +68,7 @@ const FullPostScreen = (
             likes: postData.likes,
             commentsCount,
           }}
+          onLike={() => setPostCallback((prevState) => !prevState)}
         />
         <RenderHTML
           contentWidth={width}

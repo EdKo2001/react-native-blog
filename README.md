@@ -7,7 +7,6 @@
 # TO DO:
 
 BUGS:
-FIX: hover bg some sections
 FEAT: On change Auth => cb();
 
 Optimization:

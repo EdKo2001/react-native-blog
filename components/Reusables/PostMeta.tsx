@@ -55,11 +55,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 20,
+    backgroundColor: "transparent",
   },
   meta: {
     flexDirection: "row",
     alignItems: "center",
     marginLeft: 20,
+    backgroundColor: "transparent",
     metaItem: {
       fontSize: 16,
       marginLeft: 5,

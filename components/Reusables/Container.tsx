@@ -15,8 +15,8 @@ const Container: FC<IContainer> = ({ children, style }) => {
       style={
         [
           styles.container,
-          style,
           { backgroundColor: foregroundColor },
+          style,
         ] as StyleProp<ViewStyle>
       }
     >
