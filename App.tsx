@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import useCachedResources from "./hooks/useCachedResources";
+import { useCachedResources } from "./hooks";
 
 import Navigation from "./navigation";
 

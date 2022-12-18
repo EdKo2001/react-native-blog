@@ -4,7 +4,7 @@ import {
   View as DefaultView,
 } from "react-native";
 
-import Colors from "../../constants/Colors";
+import { Colors } from "../../constants";
 
 import useColorScheme from "../../hooks/useColorScheme";
 

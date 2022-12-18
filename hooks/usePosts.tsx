@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { ActivityIndicator, FlatList } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
-import { Text, View } from "../components/Reusables/Themed";
-import Post from "../components/Reusables/Post";
-import Container from "../components/Reusables/Container";
+import { Text, View, Post, Container } from "../components/Reusables";
 
 import { useGlobalContext } from "../context/GlobalContext";
 

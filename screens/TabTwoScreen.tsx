@@ -1,4 +1,4 @@
-import usePosts from "../hooks/usePosts";
+import { usePosts } from "../hooks";
 
 import { RootTabScreenProps } from "../types";
 

@@ -2,15 +2,12 @@ import { useEffect, useState, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
-import Button from "../components/Reusables/Button";
-import Container from "../components/Reusables/Container";
-import { View, Text } from "../components/Reusables/Themed";
-import SignIn from "../components/SignIn";
-import SignUp from "../components/SignUp";
+import { SignIn, SignUp } from "../components";
+import { Button, Container, View, Text } from "../components/Reusables";
 
 import { useGlobalContext } from "../context/GlobalContext";
 
-import usePosts from "../hooks/usePosts";
+import { usePosts } from "../hooks";
 
 import { RootTabScreenProps } from "../types";
 

@@ -3,9 +3,7 @@ import { TextInput, StyleSheet } from "react-native";
 
 import { useForm, Controller } from "react-hook-form";
 
-import Modal from "./Reusables/Modal";
-import { Text } from "./Reusables/Themed";
-import Button from "./Reusables/Button";
+import { Text, Modal, Button } from "./Reusables";
 
 import { useGlobalContext } from "../context/GlobalContext";
 

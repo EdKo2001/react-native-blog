@@ -14,9 +14,9 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import { Text } from "../components/Reusables/Themed";
+import { Text } from "../components/Reusables";
 
-import Colors from "../constants/Colors";
+import { Colors } from "../constants";
 
 import {
   TabOneScreen,
@@ -27,11 +27,11 @@ import {
   FullPostScreen,
 } from "../screens";
 
-import ShareComponent from "../components/Reusables/Share";
+import { ShareComponent } from "../components/Reusables";
 
 import { useGlobalContext } from "../context/GlobalContext";
 
-import useColorScheme from "../hooks/useColorScheme";
+import { useColorScheme } from "../hooks";
 
 import {
   RootStackParamList,

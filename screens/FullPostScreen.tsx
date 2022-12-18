@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 
 import RenderHTML from "react-native-render-html";
 
-import { Text, useThemeColor } from "../components/Reusables/Themed";
-import AccessibleImage from "../components/Reusables/AccessibleImage";
-import Container from "../components/Reusables/Container";
-import PostMeta from "../components/Reusables/PostMeta";
+import {
+  PostMeta,
+  Container,
+  AccessibleImage,
+  Text,
+  useThemeColor,
+} from "../components/Reusables";
 
 import { width } from "../constants/Layout";
 
