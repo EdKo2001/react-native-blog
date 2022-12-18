@@ -3,9 +3,3 @@
 <p align="center">
     <img align="center" src="https://user-images.githubusercontent.com/53624093/207145393-aaa48233-6e9b-4ac7-8602-270781702c20.gif">
 </p>
-
-# TO DO:
-
-BUGS:
-FEAT: On change Auth => cb();
-FIX: On Like pages number breaks

@@ -1,6 +1,5 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 
 import { SignIn, SignUp } from "../components";
 import { Button, Container, View, Text } from "../components/Reusables";
@@ -12,20 +11,21 @@ import { usePosts } from "../hooks";
 import { RootTabScreenProps } from "../types";
 
 const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
-  const isFocused = useIsFocused();
-
   const [isSignInVisible, setSignInVisible] = useState(false);
   const [isSignUpVisible, setSignUpVisible] = useState(false);
   const { favorites, isAuthed, userData, authSignout } = useGlobalContext();
 
-  let favPosts: any = [];
+  let favPosts: { posts: any; postsCount: number } = {
+    posts: null,
+    postsCount: 0,
+  };
 
   try {
     favPosts = isAuthed
       ? usePosts("favorites", isAuthed)
       : favorites.length !== 0
       ? usePosts(`id=${favorites}`)
-      : { postsCount: 0 };
+      : { posts: null, postsCount: 0 };
   } catch (err) {
     console.warn(err);
   }
