@@ -1,21 +1,18 @@
 import { FC } from "react";
 import {
-  Pressable,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { FontAwesome } from "@expo/vector-icons";
 import RenderHtml from "react-native-render-html";
 
 import { Text, useThemeColor, View } from "./Themed";
+import PostMeta from "./PostMeta";
 
 import AccessibleImage from "./AccessibleImage";
 import Button from "./Button";
-
-import { useGlobalContext } from "../../context/GlobalContext";
 
 import { BACKEND_URL } from "@env";
 
@@ -24,13 +21,8 @@ import { IPost } from "../../types/";
 const Post: FC<IPost> = (props) => {
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
-  const { setFavorite, isFavorite } = useGlobalContext();
 
-  const color = useThemeColor(
-    //@ts-ignore
-    { light: props.lightColor, dark: props.darkColor },
-    "text"
-  );
+  const color = useThemeColor({ light: undefined, dark: undefined }, "text");
 
   const tagsStyles = {
     body: {
@@ -41,10 +33,12 @@ const Post: FC<IPost> = (props) => {
   const navigateToFullPost = () => {
     //@ts-ignore
     navigation.navigate("FullPost", {
+      _id: props._id,
       slug: props.slug,
       title: props.title,
       img: props.imageUrl ? BACKEND_URL + props.imageUrl : "",
       tag: props.tags?.[0],
+      commentsCount: props.commentsCount,
     });
   };
 
@@ -71,29 +65,7 @@ const Post: FC<IPost> = (props) => {
           tagsStyles={tagsStyles}
           source={{ html: props.excerpt?.replace(/(<([^>]+)>)/gi, "")! }}
         />
-        <View style={styles.metaWrapper}>
-          <View style={[styles.meta, { marginLeft: 0 }]}>
-            <FontAwesome name="eye" size={20} color={color} />
-            <Text style={styles.meta.metaItem}>{props.viewsCount}</Text>
-          </View>
-          <View style={styles.meta}>
-            <FontAwesome name="commenting-o" size={20} color={color} />
-            <Text style={styles.meta.metaItem}>{props.commentsCount}</Text>
-          </View>
-          <Pressable
-            onPress={() => (
-              setFavorite(props._id!, props.slug, props.likes), props.onLike?.()
-            )}
-            style={styles.meta}
-          >
-            <FontAwesome
-              name={isFavorite(props._id!, props.likes) ? "heart" : "heart-o"}
-              size={20}
-              color={isFavorite(props._id!, props.likes) ? "red" : color}
-            />
-            <Text style={styles.meta.metaItem}>{props.likesCount}</Text>
-          </Pressable>
-        </View>
+        <PostMeta {...props} />
         <Button
           title="Read More"
           onPress={navigateToFullPost}
@@ -126,21 +98,6 @@ const styles = StyleSheet.create({
   },
   desc: {
     fontSize: 16,
-  },
-  metaWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 20,
-  },
-  meta: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 20,
-    metaItem: {
-      fontSize: 16,
-      marginLeft: 5,
-      backgroundColor: "transparent",
-    },
   },
   button: {
     maxWidth: "50%",

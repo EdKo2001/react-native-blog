@@ -1,16 +1,16 @@
 interface IPost {
-  _id?: number;
+  _id: number;
   title?: string;
-  slug?: string;
+  slug: string;
   excerpt?: string;
   createdAt?: string;
   imageUrl?: string;
   user?: { _id: number };
-  viewsCount?: number;
+  viewsCount: number;
   comments?: [];
-  commentsCount?: number;
+  commentsCount: number;
   likes?: [];
-  likesCount?: number;
+  likesCount: number;
   isLiked?: boolean;
   likesCallback?: () => void;
   tags?: number[];

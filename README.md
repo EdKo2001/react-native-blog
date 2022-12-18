@@ -14,5 +14,3 @@ Optimization:
 App weight
 https://william-liu.medium.com/preloading-react-native-bridge-2d9c109440a4
 FEAT: Export components into index.ts
-
-FEAT: POST meta duplicate into fullPost

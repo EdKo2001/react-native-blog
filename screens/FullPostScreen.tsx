@@ -6,6 +6,7 @@ import RenderHTML from "react-native-render-html";
 import { Text, useThemeColor } from "../components/Reusables/Themed";
 import AccessibleImage from "../components/Reusables/AccessibleImage";
 import Container from "../components/Reusables/Container";
+import PostMeta from "../components/Reusables/PostMeta";
 
 import { width } from "../constants/Layout";
 
@@ -17,9 +18,14 @@ const FullPostScreen = (
   { route, navigation }: RootStackScreenProps<"FullPost">,
   props: any
 ) => {
-  const [content, setContent] = useState("");
   //@ts-ignore
-  const { slug, title, img, tag } = route.params;
+  const { _id, slug, title, img, tag, commentsCount } = route.params;
+  const [postData, setPostData] = useState<{
+    viewsCount?: number;
+    likesCount?: number;
+    likes?: { _id: string; user: string; createdAt: string }[];
+    content?: string;
+  }>({});
 
   const color = useThemeColor(
     //@ts-ignore
@@ -29,11 +35,14 @@ const FullPostScreen = (
 
   useEffect(() => {
     const getPostContent = async () => {
-      setContent(
-        await axios
-          .get(`/posts/${slug}?fields=content`)
-          .then((res: any) => res.data.content)
-      );
+      await axios
+        .get(`/posts/${slug}?fields=content,viewsCount,likesCount,likes`)
+        .then(
+          (res: any) => (
+            setPostData(res.data), console.log("res.data.likes", res.data.likes)
+          )
+        )
+        .catch((err: Error) => console.warn(err));
     };
 
     getPostContent();
@@ -45,7 +54,7 @@ const FullPostScreen = (
     },
   };
 
-  return !content ? (
+  return !postData.content ? (
     <ActivityIndicator style={{ flex: 1, alignItems: "center" }} size="large" />
   ) : (
     <ScrollView>
@@ -53,10 +62,20 @@ const FullPostScreen = (
         <AccessibleImage src={img} style={styles.featured} full />
         <Text style={styles.title}>{title?.replace(/&nbsp;/g, " ")}</Text>
         <Text style={styles.tag}>#{tag}</Text>
+        <PostMeta
+          {...{
+            _id,
+            slug,
+            viewsCount: postData.viewsCount!,
+            likesCount: postData.likesCount!,
+            likes: postData.likes,
+            commentsCount,
+          }}
+        />
         <RenderHTML
           contentWidth={width}
           tagsStyles={tagsStyles}
-          source={{ html: content }}
+          source={{ html: postData.content }}
         />
       </Container>
     </ScrollView>
