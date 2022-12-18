@@ -20,15 +20,15 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
 
   let favPosts: any = [];
 
-  // try {
-  //   favPosts = isAuthed
-  //     ? usePosts("favorites", isAuthed)
-  //     : favorites.length !== 0
-  //     ? usePosts(`id=${favorites}`)
-  //     : { postsCount: 0 };
-  // } catch (err) {
-  //   console.warn(err);
-  // }
+  try {
+    favPosts = isAuthed
+      ? usePosts("favorites", isAuthed)
+      : favorites.length !== 0
+      ? usePosts(`id=${favorites}`)
+      : { postsCount: 0 };
+  } catch (err) {
+    console.warn(err);
+  }
 
   return (
     <>
@@ -44,6 +44,7 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
             <Button title="Sign Out" onPress={authSignout} />
           )}
         </View>
+        <Text>{isAuthed ? "True" : "False"}</Text>
         <Text style={[styles.title, { marginBottom: 0 }]}>Favorites Posts</Text>
         {favPosts?.postsCount === 0 && (
           <Text style={{ marginTop: 10, fontSize: 16 }}>No Favorite Post</Text>

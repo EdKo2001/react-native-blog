@@ -8,8 +8,8 @@
     "android": "expo start --android",
     "apk": "eas build -p android --profile preview",
     "ios": "expo start --ios",
-    "test": "jest --watchAll",
-    "np": "np"
+    "optimize": "npx expo-optimize",
+    "test": "jest --watchAll"
   },
   "jest": {
     "preset": "jest-expo"
@@ -29,7 +29,6 @@
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "expo-system-ui": "~2.0.1",
-    "np": "^7.6.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-hook-form": "^7.40.0",

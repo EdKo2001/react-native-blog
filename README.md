@@ -8,6 +8,7 @@
 
 BUGS:
 FEAT: On change Auth => cb();
+FIX: On Like pages number breaks
 
 Optimization:
 App weight
