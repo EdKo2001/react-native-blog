@@ -5,7 +5,7 @@ import { RootTabScreenProps } from "../types";
 const TabThreeScreen = ({ navigation }: RootTabScreenProps<"TabThree">) => {
   const relevantPosts = usePosts("relevant");
 
-  return relevantPosts;
+  return relevantPosts.posts;
 };
 
 export default TabThreeScreen;

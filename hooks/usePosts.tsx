@@ -36,6 +36,7 @@ const usePosts = (options?: string, isSecured?: boolean, limit = 3) => {
         );
         setPostsData(allPosts.data);
         setPosts(allPosts.data.results);
+        console.log(allPosts.data.results);
       } catch (err) {
         //@ts-ignore
         console.warn(err.response.data.message);
@@ -96,26 +97,29 @@ const usePosts = (options?: string, isSecured?: boolean, limit = 3) => {
     <Text style={{ textAlign: "center" }}>No Data at the moment</Text>
   );
 
-  return (
-    <Container>
-      {posts.length === 0 ? (
-        <ActivityIndicator
-          style={{ flex: 1, alignItems: "center" }}
-          size="large"
-        />
-      ) : (
-        <FlatList
-          contentContainerStyle={{ flexGrow: 1 }}
-          data={posts}
-          renderItem={({ item }) => <Post {...item} />}
-          ListFooterComponent={renderFooter}
-          ListEmptyComponent={renderEmpty}
-          onEndReachedThreshold={0.2}
-          onEndReached={fetchMoreData}
-        />
-      )}
-    </Container>
-  );
+  return {
+    postsCount: posts.length,
+    posts: (
+      <Container>
+        {posts.length === 0 ? (
+          <ActivityIndicator
+            style={{ flex: 1, alignItems: "center" }}
+            size="large"
+          />
+        ) : (
+          <FlatList
+            contentContainerStyle={{ flexGrow: 1 }}
+            data={posts}
+            renderItem={({ item }) => <Post {...item} />}
+            ListFooterComponent={renderFooter}
+            ListEmptyComponent={renderEmpty}
+            onEndReachedThreshold={0.2}
+            onEndReached={fetchMoreData}
+          />
+        )}
+      </Container>
+    ),
+  };
 };
 
 export default usePosts;

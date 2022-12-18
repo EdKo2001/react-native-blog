@@ -5,7 +5,7 @@ import { RootTabScreenProps } from "../types";
 const TabTwoScreen = ({ navigation }: RootTabScreenProps<"TabTwo">) => {
   const popularPosts = usePosts("popular");
 
-  return popularPosts;
+  return popularPosts.posts;
 };
 
 export default TabTwoScreen;

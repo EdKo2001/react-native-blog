@@ -16,23 +16,22 @@ import { RootTabScreenProps } from "../types";
 
 const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
   const isFocused = useIsFocused();
-  const [favPosts, setFavPosts] = useState([]);
 
   const [isSignInVisible, setSignInVisible] = useState(false);
   const [isSignUpVisible, setSignUpVisible] = useState(false);
   const { favorites, isAuthed, authSignout } = useGlobalContext();
 
+  let favPosts = [];
+
   try {
     if (isAuthed) {
-      usePosts("favorites", isAuthed);
+      favPosts = usePosts("favorites", isAuthed) as any;
     } else {
-      // favorites.length > 0 && setFavPosts(usePosts(`id=${favorites}`) as any);
+      favPosts = usePosts(`id=${favorites}`) as any;
     }
   } catch (err) {
     console.warn(err);
   }
-
-  // console.log(favPosts);
 
   return (
     <>
@@ -49,11 +48,11 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
           )}
         </View>
         <Text style={[styles.title, { marginBottom: 0 }]}>Favorites Posts</Text>
-        {favPosts.length === 0 && (
+        {favPosts.postsCount === 0 && (
           <Text style={{ marginTop: 10, fontSize: 16 }}>No Favorite Post</Text>
         )}
       </Container>
-      {favPosts.length > 0 && favPosts}
+      {favPosts.postsCount !== 0 && favPosts.posts}
       {!isAuthed && (
         <>
           <SignIn
