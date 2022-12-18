@@ -14,4 +14,4 @@ FEAT: Sign in/up/out and their fav posts
 FEAT: Export components into index.ts
 FIX: hover bg some sections
 
-Check Sign Up (passwords matching)
+On Sign out Error

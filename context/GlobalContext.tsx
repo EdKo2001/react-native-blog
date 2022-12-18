@@ -14,8 +14,15 @@ const initialState = {
   switchTheme: (theme: "light" | "dark") => {
     theme;
   },
-  setFavorite: (id: number, slug?: string) => {},
-  isFavorite: (id: number) => {
+  setFavorite: (
+    postId: number,
+    slug?: string,
+    likes?: { _id: string; user: string; createdAt: string }[]
+  ) => {},
+  isFavorite: (
+    postId: number,
+    likes?: { _id: string; user: string; createdAt: string }[]
+  ) => {
     return true || false;
   },
   authSignIn: (email: string, password: string) => {
@@ -39,6 +46,7 @@ export const GlobalProvider = ({ children }: any) => {
   );
   const [favorites, setFavorites] = useState<number[]>([]);
   const [isAuthed, setAuthed] = useState(false);
+  const [userId, setUserId] = useState(null);
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -73,6 +81,9 @@ export const GlobalProvider = ({ children }: any) => {
           )
         );
         setToken((await AsyncStorage.getItem("token")) ?? "");
+        setUserId(
+          JSON.parse((await AsyncStorage.getItem("userId")) as string) ?? null
+        );
       } catch (err) {
         console.warn("setSavedAuthed", err);
       }
@@ -88,9 +99,13 @@ export const GlobalProvider = ({ children }: any) => {
     await AsyncStorage.setItem("theme", theme);
   };
 
-  const setFavorite = async (id: number, slug?: string) => {
+  const setFavorite = async (
+    postId: number,
+    slug?: string,
+    likes?: { _id: string; user: string; createdAt: string }[]
+  ) => {
     if (isAuthed) {
-      if (isFavorite(id)) {
+      if (isFavorite(postId, likes)) {
         await axios
           .put(
             `/posts/${slug}/unlike`,
@@ -117,32 +132,38 @@ export const GlobalProvider = ({ children }: any) => {
           .catch((err: Error) => console.warn(err.response.data));
       }
     } else {
-      if (isFavorite(id)) {
+      if (isFavorite(postId, likes)) {
         setFavorites(
           (prevFav) => (
             AsyncStorage.setItem(
               "favorites",
-              JSON.stringify(prevFav.filter((fav) => fav !== id))
+              JSON.stringify(prevFav.filter((fav) => fav !== postId))
             ),
-            prevFav.filter((fav) => fav !== id)
+            prevFav.filter((fav) => fav !== postId)
           )
         );
       } else {
         setFavorites(
           (prevFav) => (
-            AsyncStorage.setItem("favorites", JSON.stringify([...prevFav, id])),
-            [...prevFav, id]
+            AsyncStorage.setItem(
+              "favorites",
+              JSON.stringify([...prevFav, postId])
+            ),
+            [...prevFav, postId]
           )
         );
       }
     }
   };
 
-  const isFavorite = (id: number) => {
+  const isFavorite = (
+    postId: number,
+    likes?: { _id: string; user: string; createdAt: string }[]
+  ) => {
     if (isAuthed) {
-      return;
+      return likes ? likes?.some((like) => like.user === userId) : false;
     } else {
-      return favorites.includes(id);
+      return favorites.includes(postId);
     }
   };
 
@@ -152,10 +173,14 @@ export const GlobalProvider = ({ children }: any) => {
         email,
         password,
       });
+
       setAuthed(true);
       setToken(data.token);
+      setUserId(data._id);
+
       AsyncStorage.setItem("isAuthed", JSON.stringify(true));
       AsyncStorage.setItem("token", data.token);
+      AsyncStorage.setItem("userId", JSON.stringify(data._id));
 
       return Promise.resolve();
     } catch (err) {
@@ -182,8 +207,11 @@ export const GlobalProvider = ({ children }: any) => {
 
       setAuthed(true);
       setToken(data.token);
+      setUserId(data._id);
+
       AsyncStorage.setItem("isAuthed", JSON.stringify(true));
       AsyncStorage.setItem("token", data.token);
+      AsyncStorage.setItem("userId", JSON.stringify(data._id));
 
       return Promise.resolve();
     } catch (err) {

@@ -34,7 +34,6 @@ const usePosts = (options?: string, isSecured?: boolean, limit = 3) => {
             },
           }
         );
-        console.log(allPosts.data);
         setPostsData(allPosts.data);
         setPosts(allPosts.data.results);
       } catch (err) {
