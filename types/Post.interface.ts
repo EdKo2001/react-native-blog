@@ -21,6 +21,7 @@ interface IPost {
   isEditable?: boolean;
   ref?: any;
   isAuth?: boolean;
+  onLike?: () => void;
 }
 
 export default IPost;

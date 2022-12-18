@@ -99,6 +99,17 @@ export const GlobalProvider = ({ children }: any) => {
     await AsyncStorage.setItem("theme", theme);
   };
 
+  const isFavorite = (
+    postId: number,
+    likes?: { _id: string; user: string; createdAt: string }[]
+  ) => {
+    if (isAuthed) {
+      return likes ? likes?.some((like) => like.user === userId) : false;
+    } else {
+      return favorites.includes(postId);
+    }
+  };
+
   const setFavorite = async (
     postId: number,
     slug?: string,
@@ -132,7 +143,7 @@ export const GlobalProvider = ({ children }: any) => {
           .catch((err: Error) => console.warn(err.response.data));
       }
     } else {
-      if (isFavorite(postId, likes)) {
+      if (isFavorite(postId)) {
         setFavorites(
           (prevFav) => (
             AsyncStorage.setItem(
@@ -153,17 +164,6 @@ export const GlobalProvider = ({ children }: any) => {
           )
         );
       }
-    }
-  };
-
-  const isFavorite = (
-    postId: number,
-    likes?: { _id: string; user: string; createdAt: string }[]
-  ) => {
-    if (isAuthed) {
-      return likes ? likes?.some((like) => like.user === userId) : false;
-    } else {
-      return favorites.includes(postId);
     }
   };
 

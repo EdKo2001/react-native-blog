@@ -20,6 +20,8 @@ const usePosts = (options?: string, isSecured?: boolean, limit = 3) => {
   const [isLoading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
 
+  const [postCb, setPostCb] = useState(false);
+
   const { token } = useGlobalContext();
 
   useEffect(() => {
@@ -36,10 +38,9 @@ const usePosts = (options?: string, isSecured?: boolean, limit = 3) => {
         );
         setPostsData(allPosts.data);
         setPosts(allPosts.data.results);
-        console.log(allPosts.data.results);
       } catch (err) {
         //@ts-ignore
-        console.warn(err.response.data.message);
+        console.warn(err.response.data);
         //@ts-ignore
         alert(err.response.data.message);
       }
@@ -48,7 +49,7 @@ const usePosts = (options?: string, isSecured?: boolean, limit = 3) => {
     getPosts();
 
     !isFocused && setPage(1);
-  }, [isFocused]);
+  }, [isFocused, postCb]);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -110,7 +111,12 @@ const usePosts = (options?: string, isSecured?: boolean, limit = 3) => {
           <FlatList
             contentContainerStyle={{ flexGrow: 1 }}
             data={posts}
-            renderItem={({ item }) => <Post {...item} />}
+            renderItem={({ item }) => (
+              <Post
+                {...item}
+                onLike={() => setPostCb((prevState) => !prevState)}
+              />
+            )}
             ListFooterComponent={renderFooter}
             ListEmptyComponent={renderEmpty}
             onEndReachedThreshold={0.2}

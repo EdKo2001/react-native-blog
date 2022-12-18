@@ -6,14 +6,13 @@
 
 # TO DO:
 
+BUGS:
+FIX: hover bg some sections
+FEAT: On change Auth => cb();
+
 Optimization:
 App weight
 https://william-liu.medium.com/preloading-react-native-bridge-2d9c109440a4
-
 FEAT: Export components into index.ts
-FIX: hover bg some sections
 
-On Sign out Error
-
-On like change => cb();
-On change Auth => cb();
+FEAT: POST meta duplicate into fullPost

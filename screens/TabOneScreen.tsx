@@ -3,9 +3,9 @@ import usePosts from "../hooks/usePosts";
 import { RootTabScreenProps } from "../types";
 
 const TabOneScreen = ({ navigation }: RootTabScreenProps<"TabOne">) => {
-  const posts = usePosts();
+  const posts = usePosts().posts;
 
-  return posts.posts;
+  return posts;
 };
 
 export default TabOneScreen;
