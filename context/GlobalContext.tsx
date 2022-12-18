@@ -4,13 +4,13 @@ import { ColorSchemeName, useColorScheme } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { axios } from "../utils";
-import { createIconSetFromFontello } from "@expo/vector-icons";
 
 const initialState = {
   theme: "light" as NonNullable<ColorSchemeName>,
   favorites: [] as number[],
   isAuthed: false,
   token: "",
+  userData: {} as { id?: number; fullName?: string },
   switchTheme: (theme: "light" | "dark") => {
     theme;
   },
@@ -46,7 +46,9 @@ export const GlobalProvider = ({ children }: any) => {
   );
   const [favorites, setFavorites] = useState<number[]>([]);
   const [isAuthed, setAuthed] = useState(false);
-  const [userId, setUserId] = useState(null);
+  const [userData, setUserData] = useState<{ id?: number; fullName?: string }>(
+    {}
+  );
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -81,8 +83,8 @@ export const GlobalProvider = ({ children }: any) => {
           )
         );
         setToken((await AsyncStorage.getItem("token")) ?? "");
-        setUserId(
-          JSON.parse((await AsyncStorage.getItem("userId")) as string) ?? null
+        setUserData(
+          JSON.parse((await AsyncStorage.getItem("userData")) as string) ?? {}
         );
       } catch (err) {
         console.warn("setSavedAuthed", err);
@@ -104,7 +106,9 @@ export const GlobalProvider = ({ children }: any) => {
     likes?: { _id: string; user: string; createdAt: string }[]
   ) => {
     if (isAuthed) {
-      return likes ? likes?.some((like) => like.user === userId) : false;
+      return likes
+        ? likes?.some((like) => like.user == userData.id?.toString())
+        : false;
     } else {
       return favorites.includes(postId);
     }
@@ -176,11 +180,14 @@ export const GlobalProvider = ({ children }: any) => {
 
       setAuthed(true);
       setToken(data.token);
-      setUserId(data._id);
+      setUserData({ id: data._id, fullName: data.fullName });
 
       AsyncStorage.setItem("isAuthed", JSON.stringify(true));
       AsyncStorage.setItem("token", data.token);
-      AsyncStorage.setItem("userId", JSON.stringify(data._id));
+      AsyncStorage.setItem(
+        "userData",
+        JSON.stringify({ id: data._id, fullName: data.fullName })
+      );
 
       return Promise.resolve();
     } catch (err) {
@@ -207,11 +214,14 @@ export const GlobalProvider = ({ children }: any) => {
 
       setAuthed(true);
       setToken(data.token);
-      setUserId(data._id);
+      setUserData({ id: data._id, fullName: data.fullName });
 
       AsyncStorage.setItem("isAuthed", JSON.stringify(true));
       AsyncStorage.setItem("token", data.token);
-      AsyncStorage.setItem("userId", JSON.stringify(data._id));
+      AsyncStorage.setItem(
+        "userData",
+        JSON.stringify({ id: data._id, fullName: data.fullName })
+      );
 
       return Promise.resolve();
     } catch (err) {
@@ -239,6 +249,7 @@ export const GlobalProvider = ({ children }: any) => {
     favorites,
     isAuthed,
     token,
+    userData,
     switchTheme,
     setFavorite,
     isFavorite,

@@ -16,7 +16,7 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
 
   const [isSignInVisible, setSignInVisible] = useState(false);
   const [isSignUpVisible, setSignUpVisible] = useState(false);
-  const { favorites, isAuthed, authSignout } = useGlobalContext();
+  const { favorites, isAuthed, userData, authSignout } = useGlobalContext();
 
   let favPosts: any = [];
 
@@ -33,7 +33,9 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
   return (
     <>
       <Container style={{ flex: 0 }}>
-        <Text style={{ ...styles.title, textAlign: "center" }}>Get Authed</Text>
+        <Text style={{ ...styles.title, textAlign: "center" }}>
+          {isAuthed ? userData.fullName : "Get Authed"}
+        </Text>
         <View style={styles.ctaButtons} foreground>
           {!isAuthed ? (
             <>
@@ -44,7 +46,6 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
             <Button title="Sign Out" onPress={authSignout} />
           )}
         </View>
-        <Text>{isAuthed ? "True" : "False"}</Text>
         <Text style={[styles.title, { marginBottom: 0 }]}>Favorites Posts</Text>
         {favPosts?.postsCount === 0 && (
           <Text style={{ marginTop: 10, fontSize: 16 }}>No Favorite Post</Text>
