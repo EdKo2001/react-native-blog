@@ -29,6 +29,7 @@ const SignUp: FC<ISignUp> = ({ isOpen, setOpen }) => {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
     getValues,
   } = useForm({
     defaultValues: {
@@ -47,9 +48,9 @@ const SignUp: FC<ISignUp> = ({ isOpen, setOpen }) => {
   }) =>
     isEmailValid &&
     getValues("password") === getValues("confirmPassword") &&
-    authSignUp(data.fullName, data.email, data.password).then(
-      () => (setOpen(false), alert("Successfully registered"))
-    );
+    authSignUp(data.fullName, data.email, data.password)
+      .then(() => (setOpen(false), alert("Successfully registered")))
+      .catch((err) => console.warn(err));
 
   return (
     <Modal
@@ -75,7 +76,7 @@ const SignUp: FC<ISignUp> = ({ isOpen, setOpen }) => {
         )}
         name="fullName"
       />
-      {errors.fullName && (
+      {errors.fullName! && (
         <Text style={[styles.label, styles.errorMessage]}>
           This is required.
         </Text>
@@ -100,12 +101,12 @@ const SignUp: FC<ISignUp> = ({ isOpen, setOpen }) => {
         )}
         name="email"
       />
-      {errors.email && (
+      {errors.email! && (
         <Text style={[styles.label, styles.errorMessage]}>
           This is required.
         </Text>
       )}
-      {!errors.email && !isEmailValid && (
+      {(!errors.email as any) && !isEmailValid && (
         <Text style={[styles.label, styles.errorMessage]}>
           Email is invalid.
         </Text>
@@ -131,7 +132,7 @@ const SignUp: FC<ISignUp> = ({ isOpen, setOpen }) => {
         )}
         name="password"
       />
-      {errors.password && (
+      {errors.password! && (
         <Text style={[styles.label, styles.errorMessage]}>
           This is required.
         </Text>
@@ -141,6 +142,11 @@ const SignUp: FC<ISignUp> = ({ isOpen, setOpen }) => {
         control={control}
         rules={{
           required: true,
+          validate: (val: string) => {
+            if (watch("password") != val) {
+              return "Your passwords do no match";
+            }
+          },
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <>
@@ -156,19 +162,13 @@ const SignUp: FC<ISignUp> = ({ isOpen, setOpen }) => {
         )}
         name="confirmPassword"
       />
-      {errors.confirmPassword && (
+      {errors.confirmPassword! && (
         <Text style={[styles.label, styles.errorMessage]}>
-          This is required.
+          {errors.confirmPassword?.message !== ""
+            ? errors.confirmPassword?.message
+            : "This is required."}
         </Text>
       )}
-      {!errors.confirmPassword &&
-        getValues("password") !== "" &&
-        getValues("confirmPassword") !== "" &&
-        getValues("password") === getValues("confirmPassword") && (
-          <Text style={[styles.label, styles.errorMessage]}>
-            Confirm password doesn't match password
-          </Text>
-        )}
 
       <Button
         title="Submit"

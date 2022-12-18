@@ -38,9 +38,9 @@ const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
 
   const onSubmit = (data: { email: string; password: string }) =>
     isEmailValid &&
-    authSignIn(data.email, data.password).then(
-      () => (setOpen(false), alert("Successfully logged in"))
-    );
+    authSignIn(data.email, data.password)
+      .then(() => (setOpen(false), alert("Successfully logged in")))
+      .catch((err) => console.warn(err));
 
   return (
     <Modal

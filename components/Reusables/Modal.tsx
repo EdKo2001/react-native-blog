@@ -1,5 +1,10 @@
 import React, { FC } from "react";
-import { StyleSheet, Modal as ModalComponent, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Modal as ModalComponent,
+  Pressable,
+  Touchable,
+} from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -31,7 +36,7 @@ const Modal: FC<IModal> = ({ isOpen, setOpen, children, title }) => {
         ]}
         onPress={() => setOpen(false)}
       >
-        <View style={styles.modalView}>
+        <Pressable style={styles.modalView}>
           <Pressable
             style={{ marginLeft: "auto", marginTop: -15, marginRight: -15 }}
             onPress={() => setOpen(false)}
@@ -40,7 +45,7 @@ const Modal: FC<IModal> = ({ isOpen, setOpen, children, title }) => {
           </Pressable>
           {title && <Text style={styles.title}>{title}</Text>}
           {children}
-        </View>
+        </Pressable>
       </Pressable>
     </ModalComponent>
   );

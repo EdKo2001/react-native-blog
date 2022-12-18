@@ -4,6 +4,7 @@ import { ColorSchemeName, useColorScheme } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { axios } from "../utils";
+import { createIconSetFromFontello } from "@expo/vector-icons";
 
 const initialState = {
   theme: "light" as NonNullable<ColorSchemeName>,
@@ -145,6 +146,7 @@ export const GlobalProvider = ({ children }: any) => {
         email,
         password,
       });
+
       setAuthed(true);
       setToken(data.token);
       AsyncStorage.setItem("isAuthed", JSON.stringify(true));
@@ -153,9 +155,8 @@ export const GlobalProvider = ({ children }: any) => {
       return Promise.resolve();
     } catch (err) {
       if (err instanceof Error) {
-        console.warn(err);
         //@ts-ignore
-        alert(err.response.data.message);
+        alert(err.response.data.message ?? err.response.data.errors[0]);
       }
       return Promise.reject(err);
     }
