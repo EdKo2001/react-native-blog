@@ -14,7 +14,7 @@ const initialState = {
   switchTheme: (theme: "light" | "dark") => {
     theme;
   },
-  setFavorite: (id: number) => {},
+  setFavorite: (id: number, slug?: string) => {},
   isFavorite: (id: number) => {
     return true || false;
   },
@@ -88,29 +88,62 @@ export const GlobalProvider = ({ children }: any) => {
     await AsyncStorage.setItem("theme", theme);
   };
 
-  const setFavorite = async (id: number) => {
-    if (favorites.includes(id)) {
-      setFavorites(
-        (prevFav) => (
-          AsyncStorage.setItem(
-            "favorites",
-            JSON.stringify(prevFav.filter((fav) => fav !== id))
-          ),
-          prevFav.filter((fav) => fav !== id)
-        )
-      );
+  const setFavorite = async (id: number, slug?: string) => {
+    if (isAuthed) {
+      if (isFavorite(id)) {
+        await axios
+          .put(
+            `/posts/${slug}/unlike`,
+            {},
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
+          )
+          .catch((err: Error) => console.warn(err));
+      } else {
+        await axios
+          .put(
+            `/posts/${slug}/like`,
+            {},
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
+          )
+          //@ts-ignore
+          .catch((err: Error) => console.warn(err.response.data));
+      }
     } else {
-      setFavorites(
-        (prevFav) => (
-          AsyncStorage.setItem("favorites", JSON.stringify([...prevFav, id])),
-          [...prevFav, id]
-        )
-      );
+      if (isFavorite(id)) {
+        setFavorites(
+          (prevFav) => (
+            AsyncStorage.setItem(
+              "favorites",
+              JSON.stringify(prevFav.filter((fav) => fav !== id))
+            ),
+            prevFav.filter((fav) => fav !== id)
+          )
+        );
+      } else {
+        setFavorites(
+          (prevFav) => (
+            AsyncStorage.setItem("favorites", JSON.stringify([...prevFav, id])),
+            [...prevFav, id]
+          )
+        );
+      }
     }
   };
 
   const isFavorite = (id: number) => {
-    return favorites.includes(id);
+    if (isAuthed) {
+      return;
+    } else {
+      return favorites.includes(id);
+    }
   };
 
   const authSignIn = async (email: string, password: string) => {

@@ -81,7 +81,7 @@ const Post: FC<IPost> = (props) => {
             <Text style={styles.meta.metaItem}>{props.commentsCount}</Text>
           </View>
           <Pressable
-            onPress={() => setFavorite(props._id!)}
+            onPress={() => setFavorite(props._id!, props.slug)}
             style={styles.meta}
           >
             <FontAwesome

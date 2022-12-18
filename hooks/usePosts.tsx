@@ -6,11 +6,13 @@ import { Text, View } from "../components/Reusables/Themed";
 import Post from "../components/Reusables/Post";
 import Container from "../components/Reusables/Container";
 
+import { useGlobalContext } from "../context/GlobalContext";
+
 import { axios } from "../utils";
 
 import { IPost } from "../types/";
 
-const usePosts = (options?: string, limit = 3) => {
+const usePosts = (options?: string, isSecured?: boolean, limit = 3) => {
   const isFocused = useIsFocused();
   // const [urlParameters, setUrlParameters] = useState(options);
   const [postsData, setPostsData] = useState([]);
@@ -18,15 +20,28 @@ const usePosts = (options?: string, limit = 3) => {
   const [isLoading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
 
+  const { token } = useGlobalContext();
+
   useEffect(() => {
     setLoading(true);
     const getPosts = async () => {
       try {
-        const allPosts = await axios.get(`/posts?${options}&limit=${limit}`);
+        const allPosts = await axios.get(
+          `/posts?${options}&limit=${limit}`,
+          isSecured && {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        console.log(allPosts.data);
         setPostsData(allPosts.data);
         setPosts(allPosts.data.results);
       } catch (err) {
-        console.warn(err);
+        //@ts-ignore
+        console.warn(err.response.data.message);
+        //@ts-ignore
+        alert(err.response.data.message);
       }
       setLoading(false);
     };
@@ -39,7 +54,12 @@ const usePosts = (options?: string, limit = 3) => {
     const getPosts = async () => {
       try {
         const allPosts = await axios.get(
-          `/posts?${options}&page=${page}&limit=${limit}`
+          `/posts?${options}&page=${page}&limit=${limit}`,
+          isSecured && {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
         );
         setPostsData(allPosts.data);
         setPosts((prevPosts) => [...prevPosts, ...allPosts.data.results]);

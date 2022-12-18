@@ -67,12 +67,12 @@ const SignIn: FC<ISignIn> = ({ isOpen, setOpen }) => {
         )}
         name="email"
       />
-      {errors.email && (
+      {errors.email! && (
         <Text style={[styles.label, styles.errorMessage]}>
           This is required.
         </Text>
       )}
-      {!errors.email && !isEmailValid && (
+      {(!errors.email as any) && !isEmailValid && (
         <Text style={[styles.label, styles.errorMessage]}>
           Email is invalid.
         </Text>

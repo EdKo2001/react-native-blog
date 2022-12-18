@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { StyleSheet } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 import Button from "../components/Reusables/Button";
 import Container from "../components/Reusables/Container";
@@ -14,11 +15,25 @@ import usePosts from "../hooks/usePosts";
 import { RootTabScreenProps } from "../types";
 
 const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
+  const isFocused = useIsFocused();
+  const [favPosts, setFavPosts] = useState([]);
+
   const [isSignInVisible, setSignInVisible] = useState(false);
   const [isSignUpVisible, setSignUpVisible] = useState(false);
   const { favorites, isAuthed, authSignout } = useGlobalContext();
 
-  const posts = favorites.length > 0 && usePosts(`id=${favorites}`);
+  try {
+    if (isAuthed) {
+      usePosts("favorites", isAuthed);
+    } else {
+      // favorites.length > 0 && setFavPosts(usePosts(`id=${favorites}`) as any);
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+
+  // console.log(favPosts);
+
   return (
     <>
       <Container style={{ flex: 0 }}>
@@ -34,11 +49,11 @@ const TabFourScreen = ({ navigation }: RootTabScreenProps<"TabFour">) => {
           )}
         </View>
         <Text style={[styles.title, { marginBottom: 0 }]}>Favorites Posts</Text>
-        {favorites.length === 0 && (
+        {favPosts.length === 0 && (
           <Text style={{ marginTop: 10, fontSize: 16 }}>No Favorite Post</Text>
         )}
       </Container>
-      {favorites.length > 0 && posts}
+      {favPosts.length > 0 && favPosts}
       {!isAuthed && (
         <>
           <SignIn
